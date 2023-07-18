@@ -1,0 +1,30 @@
+.switch {
+  border-radius: 999px;
+  width: 50px;
+  height: 25px;
+  transition: var(--transition-short);
+  background-color: var(--primary25);
+  position: relative;
+}
+
+.switch::after {
+  content: "";
+  border-radius: 999px;
+  width: 20px;
+  height: 20px;
+  margin: 2.5px;
+  position: absolute;
+  top: 0;
+  transition: var(--transition-short);
+}
+
+.switch[data-toggled="false"]::after {
+  left: 0;
+  background-color: var(--primary50);
+}
+
+.switch[data-toggled="true"]::after {
+  left: calc(100% - 25px);
+  background-color: var(--primary);
+  
+}

@@ -1,14 +1,28 @@
 import Homepage from 'pages/Homepage/Homepage.tsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import 'base.css'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { FiArrowRight } from 'react-icons/fi'
 import Header from 'components/Header/Header'
-import { LocomotiveScrollProvider } from 'react-locomotive-scroll'
+import imagesLoaded from 'imagesloaded'
+import LocomotiveScroll from 'locomotive-scroll'
 
 function App() {
+  const containerRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
+    // Initialize Locomotive Scroll after all images are loaded
+    const imageElements = document.querySelectorAll('img')
+    const imgLoad = imagesLoaded(imageElements)
+    let scroll : LocomotiveScroll
+    imgLoad.on('done', () => {
+      scroll = new LocomotiveScroll({
+        // Locomotive Scroll options
+        smooth: true,
+        el: containerRef.current ?? undefined
+      });
+    })
 
     window.onmousemove = e => {
       const cursor = document.querySelector('#cursor');
@@ -41,41 +55,24 @@ function App() {
     }
 
     return () => {
+      if(scroll) {
+        scroll.destroy()
+      }
     }
   }, [])
 
   return (
     <BrowserRouter>
-      <LocomotiveScrollProvider 
-        options={{ smooth: true }}
-        watch={[]}>
-        <div data-scroll-container>
-          <div data-scroll-section>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-          </div>
-          <Header />
-          <div id="cursor">
-            <span>View</span>
-            <FiArrowRight />
-          </div>
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-          </Routes>
-        </div>
-      </LocomotiveScrollProvider>
+      <div id="cursor">
+        <span>View</span>
+        <FiArrowRight />
+      </div>
+      <div data-scroll-container ref={containerRef}>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   )
 }

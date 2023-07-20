@@ -14,11 +14,11 @@ export default function Homepage() {
 
   //   const SLIDE_OUT_DURATION = 0
 
-  //   tl.to('#loading-img-container', {
-  //     height: 0,
-  //     duration: SLIDE_OUT_DURATION,
-  //     ease: 'expo.inOut'
-  //   }, '>')
+  //   // tl.to('#loading-img-container', {
+  //   //   height: 0,
+  //   //   duration: SLIDE_OUT_DURATION,
+  //   //   ease: 'expo.inOut'
+  //   // }, '>')
 
   //   const splitText = new SplitType('.text.animate-in')
 

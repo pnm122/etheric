@@ -19,3 +19,17 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+#gallery {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  margin-top: 20px;
+}
+
+@media (width > 768px) {
+  #gallery {
+    row-gap: 80px;
+    margin-top: 80px;
+  }
+}

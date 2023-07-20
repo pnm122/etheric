@@ -10,19 +10,23 @@ import LocomotiveScroll from 'locomotive-scroll'
 
 function App() {
   const containerRef = useRef<HTMLDivElement>(null)
+  let rendered = false
 
   useEffect(() => {
     // Initialize Locomotive Scroll after all images are loaded
     const imageElements = document.querySelectorAll('img')
     const imgLoad = imagesLoaded(imageElements)
     let scroll : LocomotiveScroll
-    imgLoad.on('done', () => {
-      scroll = new LocomotiveScroll({
-        // Locomotive Scroll options
-        smooth: true,
-        el: containerRef.current ?? undefined
-      });
-    })
+    // make sure only one instance of locomotive scroll (just for development, doesn't effect production build)
+    if(!rendered) { 
+      imgLoad.on('done', () => {
+        scroll = new LocomotiveScroll({
+          smooth: true,
+          lerp: 0.08,
+          el: containerRef.current ?? undefined,
+        });
+      })
+    }
 
     window.onmousemove = e => {
       const cursor = document.querySelector('#cursor');
@@ -53,6 +57,8 @@ function App() {
         cursor.className = ''
       }
     }
+
+    rendered = true
 
     return () => {
       if(scroll) {

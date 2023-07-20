@@ -59,6 +59,9 @@ body {
   --shadow-md: 2px 3px 10px var(--shadow-color);
   --shadow-lg: 4px 4px 14px var(--shadow-color);
   --shadow-xl: 4px 6px 18px var(--shadow-color);
+
+  --gutter-size: 3vw;
+  --half-gutter-size: 1.5vw;
 }
 
 @media (width > 768px) {
@@ -195,16 +198,20 @@ section:not(:last-of-type) {
 
 header {
   padding: 20px 0;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  column-gap: var(--size-xl);
   z-index: 999;
   position: relative;
 }
 
+header > div {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  column-gap: var(--gutter-size);
+  padding: 0 var(--half-gutter-size);
+}
+
 @media (width > 1024px) {
-  header {
+  header > div {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -242,8 +249,8 @@ header {
 
 .container {
   margin: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .section {

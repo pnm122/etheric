@@ -1,5 +1,28 @@
+.container {
+  flex-basis: 100%;
+}
+
+@media (width > 300px) {
+  .container {
+    --width: 50%;
+    --ml: 0;
+    --mr: 0;
+    flex-basis: var(--width);
+    margin-left: var(--ml);
+    margin-right: var(--mr);
+    padding: 0 var(--half-gutter-size);
+  }
+
+  .container:nth-of-type(11n + 1) {
+    --width: 40%;
+  }
+  .container:nth-of-type(11n + 2) {
+    --width: 60%;
+  }
+}
+
 .img {
-  max-width: 800px;
+  width: 100%;
 }
 
 .img img {

@@ -24,8 +24,10 @@ export default function Header() {
 
   return (
     <header className="container diff" data-scroll-section>
-      <h1 className="header-text animate-in">Etheric</h1>
-      <h1 className="secondary header-text animate-in">Energy In Present Time</h1>
+      <div>
+        <h1 className="header-text animate-in">Etheric</h1>
+        <h1 className="secondary header-text animate-in">Energy In Present Time</h1>
+      </div>
     </header>
   )
 }

@@ -60,7 +60,19 @@ export default function Homepage() {
         <img src="assets/loading.png"></img>
       </div> */}
       <main data-scroll-section>
-        <div className="container">
+        <div className="container" id={styles.gallery}>
+          <GalleryItem />
+          <GalleryItem />
+          <GalleryItem />
+          <GalleryItem />
+          <GalleryItem />
+          <GalleryItem />
+          <GalleryItem />
+          <GalleryItem />
+          <GalleryItem />
+          <GalleryItem />
+          <GalleryItem />
+          <GalleryItem />
           <GalleryItem />
           <GalleryItem />
         </div>

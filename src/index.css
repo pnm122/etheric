@@ -98,8 +98,12 @@ p, h1, h2, h3, h4, h5, h6 {
   padding: 0;
 }
 
-h1, h2, a, span {
+h1, h2, a, span, label, button {
   text-transform: uppercase;
+}
+
+label {
+  font-size: var(--text-sm);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -155,7 +159,8 @@ button {
   align-items: center;
   justify-content: center;
   color: var(--on-bg);
-  font-size: 2rem;
+  font-size: var(--text-lg);
+  transition: var(--transition-med);
 }
 
 button:disabled {
@@ -165,13 +170,15 @@ button:disabled {
 input, textarea, select {
   display: block;
   outline: none;
-  padding: var(--size-sm);
+  border: 1px solid var(--on-bg25);
+  padding: var(--size-md);
   background: none;
   font-family: inherit;
+  transition: var(--transition-short);
 }
 
 input:focus, textarea:focus, select:focus {
-  
+  border: 1px solid var(--on-bg50);
 }
 
 select > option {

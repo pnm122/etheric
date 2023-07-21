@@ -4,6 +4,7 @@ import { gsap } from "gsap"
 import SplitType from "split-type"
 import GalleryItem from "components/GalleryItem/GalleryItem"
 import { textFrom, textTo } from "utils/textAnimateOptions"
+import Header from "components/Header/Header"
 
 export default function Homepage() {
   const [loading, setLoading] = useState(true)
@@ -48,6 +49,7 @@ export default function Homepage() {
 
   return (
     <>
+      <Header />
       <div id="loading-img-container" className={`${styles.loadingImgContainer}`}>
         <img src="assets/loading.png"></img>
       </div>

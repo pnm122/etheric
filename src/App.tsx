@@ -9,6 +9,9 @@ import imagesLoaded from 'imagesloaded'
 import LocomotiveScroll from 'locomotive-scroll'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import Login from 'pages/Login/Login'
+import Register from 'pages/Register/Register'
 
 function App() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -25,8 +28,24 @@ function App() {
   };
   
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  const app = initializeApp(firebaseConfig)
+  const analytics = getAnalytics(app)
+
+  const auth = getAuth(app)
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      const uid = user.uid;
+      console.log(user)
+      // ...
+    } else {
+      // User is signed out
+      // ...
+      console.log('Signed out')
+    }
+  });
 
   useEffect(() => {
     // Initialize Locomotive Scroll after all images are loaded
@@ -94,10 +113,11 @@ function App() {
         <span>View</span>
         <FiArrowRight />
       </div>
-      <div data-scroll-container ref={containerRef}>
-        <Header />
+      <div data-scroll-container ref={containerRef} className="diff">
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </BrowserRouter>

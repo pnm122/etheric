@@ -2,6 +2,7 @@ import { gsap } from 'gsap'
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import SplitType from 'split-type'
+import { textFrom, textTo } from 'utils/textAnimateOptions'
 
 export default function Header() {
   const location = useLocation()
@@ -9,17 +10,7 @@ export default function Header() {
   useEffect(() => {
     const splitText = new SplitType('.header-text')
 
-    gsap.fromTo(splitText.chars, {
-      y: '-100%',
-      rotate: -15,
-    }, {
-      y: 0,
-      rotate: 0,
-      duration: 0.8,
-      delay: 0.2,
-      stagger: 0.02,
-      ease: 'expo.out'
-    })
+    gsap.fromTo(splitText.chars, textFrom, textTo)
   }, [location.pathname])
 
   return (

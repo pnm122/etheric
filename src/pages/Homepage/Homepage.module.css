@@ -29,7 +29,7 @@
 
 @media (width > 768px) {
   #gallery {
-    row-gap: 80px;
+    row-gap: 15vw;
     margin-top: 80px;
   }
 }

@@ -17,14 +17,19 @@ function App() {
     const imageElements = document.querySelectorAll('img')
     const imgLoad = imagesLoaded(imageElements)
     let scroll : LocomotiveScroll
+    let scrollOptions : LocomotiveScroll.InstanceOptions = {
+      smooth: true,
+      lerp: 0.08,
+      el: containerRef.current ?? undefined,
+      tablet: {
+        breakpoint: 768,
+        smooth: true
+      }
+    }
     // make sure only one instance of locomotive scroll (just for development, doesn't effect production build)
     if(!rendered) { 
       imgLoad.on('done', () => {
-        scroll = new LocomotiveScroll({
-          smooth: true,
-          lerp: 0.08,
-          el: containerRef.current ?? undefined,
-        });
+        scroll = new LocomotiveScroll(scrollOptions)
       })
     }
 

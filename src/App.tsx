@@ -7,10 +7,26 @@ import { FiArrowRight } from 'react-icons/fi'
 import Header from 'components/Header/Header'
 import imagesLoaded from 'imagesloaded'
 import LocomotiveScroll from 'locomotive-scroll'
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 function App() {
   const containerRef = useRef<HTMLDivElement>(null)
   let rendered = false
+
+  const firebaseConfig = {
+    apiKey: import.meta.env.VITE_APIKEY,
+    authDomain: "etheric-fc36d.firebaseapp.com",
+    projectId: "etheric-fc36d",
+    storageBucket: "etheric-fc36d.appspot.com",
+    messagingSenderId: "577470555750",
+    appId: "1:577470555750:web:e7eef96441d02a9ca1afa7",
+    measurementId: "G-MML15W7DKP"
+  };
+  
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 
   useEffect(() => {
     // Initialize Locomotive Scroll after all images are loaded

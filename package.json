@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "firebase": "^10.1.0",
     "gsap": "^3.12.2",
     "imagesloaded": "^5.0.0",
     "locomotive-scroll": "^4.1.4",

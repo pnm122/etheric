@@ -12,6 +12,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import Login from 'pages/Auth/Login'
 import Register from 'pages/Auth/Register'
+import AdminPanel from 'pages/AdminPanel/AdminPanel'
 
 function App() {
   const navigate = useNavigate()
@@ -41,7 +42,8 @@ function App() {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
-        console.log('Signed in...')
+        // console.log('Signed in...')
+        // console.log(user)
         if(location.pathname == '/login' || location.pathname == '/register') {
           navigate('/gallery')
         }
@@ -122,6 +124,7 @@ function App() {
           <Route path="/gallery" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </div>
     </>

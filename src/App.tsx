@@ -10,8 +10,8 @@ import LocomotiveScroll from 'locomotive-scroll'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import Login from 'pages/Login/Login'
-import Register from 'pages/Register/Register'
+import Login from 'pages/Auth/Login'
+import Register from 'pages/Auth/Register'
 
 function App() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -115,7 +115,7 @@ function App() {
       </div>
       <div data-scroll-container ref={containerRef} className="diff">
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/gallery" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>

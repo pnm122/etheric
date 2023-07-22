@@ -28,6 +28,7 @@ body {
   --on-bg: rgb(var(--on-bgRGB));
   --on-bg25: rgb(64, 64, 64);
   --on-bg50: rgb(127, 127, 127);
+  --error-color: rgb(255, 81, 62);
 
   --text-xs: 0.6rem;
   --text-sm: 0.75rem;
@@ -159,7 +160,7 @@ button {
   align-items: center;
   justify-content: center;
   color: var(--on-bg);
-  font-size: var(--text-lg);
+  font-size: var(--text-md);
   transition: var(--transition-med);
 }
 

@@ -1,5 +1,5 @@
 import Homepage from 'pages/Homepage/Homepage.tsx'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import 'base.css'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
@@ -14,6 +14,9 @@ import Login from 'pages/Auth/Login'
 import Register from 'pages/Auth/Register'
 
 function App() {
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const containerRef = useRef<HTMLDivElement>(null)
   let rendered = false
 
@@ -33,21 +36,22 @@ function App() {
 
   const auth = getAuth(app)
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/auth.user
-      const uid = user.uid;
-      console.log(user)
-      // ...
-    } else {
-      // User is signed out
-      // ...
-      console.log('Signed out')
-    }
-  });
-
   useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        console.log('Signed in...')
+        if(location.pathname == '/login' || location.pathname == '/register') {
+          navigate('/gallery')
+        }
+      } else {
+        // User is signed out
+        console.log('Signed out...')
+        navigate('/login')
+      }
+    });
+
     // Initialize Locomotive Scroll after all images are loaded
     const imageElements = document.querySelectorAll('img')
     const imgLoad = imagesLoaded(imageElements)
@@ -108,7 +112,7 @@ function App() {
   }, [])
 
   return (
-    <BrowserRouter>
+    <>
       <div id="cursor">
         <span>View</span>
         <FiArrowRight />
@@ -120,7 +124,7 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Routes>
       </div>
-    </BrowserRouter>
+    </>
   )
 }
 

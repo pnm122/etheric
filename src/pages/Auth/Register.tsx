@@ -42,7 +42,7 @@ export default function Register() {
 
     createUserWithEmailAndPassword(auth, email, password)
     .then(res => {
-      navigate('/gallery')
+      // navigation handled by onAuthStateChanged
     })
     .catch(e => {
       setEmailError(null)

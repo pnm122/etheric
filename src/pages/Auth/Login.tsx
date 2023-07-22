@@ -25,7 +25,7 @@ export default function Login() {
 
     signInWithEmailAndPassword(auth, email, password)
     .then(res => {
-      navigate('/gallery')
+      // navigation handled by onAuthStateChanged
     })
     .catch(e => {
       setEmailError(null)

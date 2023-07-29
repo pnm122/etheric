@@ -5,6 +5,7 @@ import SplitType from "split-type"
 import GalleryItem from "components/GalleryItem/GalleryItem"
 import { textFrom, textTo } from "utils/textAnimateOptions"
 import Header from "components/Header/Header"
+import Footer from "pages/Footer/Footer"
 
 export default function Homepage() {
   const [loading, setLoading] = useState(true)
@@ -71,6 +72,7 @@ export default function Homepage() {
           <GalleryItem />
         </div>
       </main>
+      <Footer />
     </>
   )
 }

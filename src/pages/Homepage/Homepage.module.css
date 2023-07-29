@@ -25,6 +25,7 @@
   flex-wrap: wrap;
   row-gap: 10px;
   margin-top: 20px;
+  margin-bottom: 60px;
 }
 
 @media (width > 768px) {

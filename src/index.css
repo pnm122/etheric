@@ -215,7 +215,39 @@ header > div {
   flex-direction: column;
   flex-wrap: wrap;
   column-gap: var(--gutter-size);
-  padding: 0 var(--half-gutter-size);
+}
+
+footer {
+  padding-top: var(--size-xl);
+  padding-bottom: var(--size-xl);
+}
+
+footer > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--size-md);
+}
+
+footer > div > * {
+  font-size: var(--text-sm);
+  width: fit-content;
+}
+
+@media (width > 500px) {
+  footer > div {
+    flex-direction: row;
+  }
+}
+
+@media (width > 768px) {
+  header > div {
+    padding: 0 var(--half-gutter-size);
+  }
+
+  footer > div {
+    padding: 0 var(--half-gutter-size);
+  }
 }
 
 @media (width > 1024px) {

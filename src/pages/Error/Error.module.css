@@ -1,0 +1,14 @@
+#error {
+  height: 100vh;
+  max-height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-md);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#error h1 {
+  font-size: 8rem;
+}

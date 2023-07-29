@@ -1,10 +1,9 @@
 import Homepage from 'pages/Homepage/Homepage.tsx'
-import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import 'base.css'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { FiArrowRight } from 'react-icons/fi'
-import Header from 'components/Header/Header'
 import imagesLoaded from 'imagesloaded'
 import LocomotiveScroll from 'locomotive-scroll'
 import { initializeApp } from "firebase/app";
@@ -13,6 +12,8 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import Login from 'pages/Auth/Login'
 import Register from 'pages/Auth/Register'
 import AdminPanel from 'pages/AdminPanel/AdminPanel'
+import isAdmin from 'utils/isAdmin'
+import Error from 'pages/Error/Error'
 
 function App() {
   const navigate = useNavigate()
@@ -38,22 +39,6 @@ function App() {
   const auth = getAuth(app)
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        // console.log('Signed in...')
-        // console.log(user)
-        if(location.pathname == '/login' || location.pathname == '/register') {
-          navigate('/gallery')
-        }
-      } else {
-        // User is signed out
-        console.log('Signed out...')
-        navigate('/login')
-      }
-    });
-
     // Initialize Locomotive Scroll after all images are loaded
     const imageElements = document.querySelectorAll('img')
     const imgLoad = imagesLoaded(imageElements)
@@ -111,7 +96,41 @@ function App() {
         scroll.destroy()
       }
     }
-  }, [])
+  }, [location.pathname])
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        if(location.pathname == '/' || 
+           location.pathname == '/login' || 
+           location.pathname == '/register') {
+          navigate('/gallery')
+        }
+
+        // If the user tries to access the admin page, check if they're an admin first
+        // If they are, set the location state so that the admin page knows we're authenticated
+        // If they aren't, navigate to the gallery page
+        if(location.pathname == '/admin') {
+          isAdmin().then(res => {
+            console.log(res)
+            if(res) {
+              location.state = { authed: true }
+            } else {
+              navigate('/gallery')
+            }
+          })
+        }
+      } else {
+        // User is signed out
+        console.log('Signed out...')
+
+        // Navigate to login page when the user tries to access anything that requires authentication
+        if(location.pathname != '/register') {
+          navigate('/login')
+        }
+      }
+    });
+  }, [location.pathname, location.state])
 
   return (
     <>
@@ -123,8 +142,10 @@ function App() {
         <Routes>
           <Route path="/gallery" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="*" element={<Error />} />
         </Routes>
       </div>
     </>

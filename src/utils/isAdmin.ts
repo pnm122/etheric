@@ -1,8 +1,6 @@
-import { getAuth } from "firebase/auth";
-import { collection, doc, getDoc, getDocs, getFirestore, query } from "firebase/firestore";
+import { collection, getDocs, getFirestore, query } from "firebase/firestore";
 
 export default async function isAdmin() {
-  const auth = getAuth()
   const db = getFirestore()
 
   // Query admins collection. 
@@ -11,7 +9,7 @@ export default async function isAdmin() {
   const ref = collection(db, 'admins')
   const q = query(ref)
   try {
-    const snap = await getDocs(q)
+    await getDocs(q)
     return true
   } catch(e) {
     return false

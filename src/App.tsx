@@ -82,7 +82,7 @@ function App() {
         cursor.classList.add('hover-item')
         return;
       }
-      if(tag == 'A' || tag == 'BUTTON') {
+      if(tag == 'A' || tag == 'BUTTON' || target.classList.contains('hover-target')) {
         cursor.classList.add('hover')
       } else {
         cursor.className = ''

@@ -3,9 +3,9 @@ import styles from '../AdminPanel.module.css'
 import { AiFillCaretLeft } from 'react-icons/ai'
 import { IoMdAdd } from 'react-icons/io'
 import { MdFileUpload } from 'react-icons/md'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-export default function Add() {
+export default function Upload() {
   const [file, setFile] = useState<File | null>(null)
   const [fileError, setFileError] = useState<string | null>(null)
   const [title, setTitle] = useState('')

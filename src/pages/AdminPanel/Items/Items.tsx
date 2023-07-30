@@ -55,7 +55,7 @@ export default function Items() {
             <div id={styles.items}>
               {itemsRender}
             </div>
-            <Link to="add" className="filled-button">Add Item</Link>
+            <Link to="upload" className="filled-button">Upload Item</Link>
           </>
         )}
       </div>

@@ -14,7 +14,7 @@ import Register from 'pages/Auth/Register'
 import AdminPanel from 'pages/AdminPanel/AdminPanel'
 import isAdmin from 'utils/isAdmin'
 import Error from 'pages/Error/Error'
-import Add from 'pages/AdminPanel/Add/Add'
+import Upload from 'pages/AdminPanel/Upload/Upload'
 import Items from 'pages/AdminPanel/Items/Items'
 
 function App() {
@@ -151,7 +151,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminPanel />}>
             <Route path="" element={<Items />} />
-            <Route path="add" element={<Add />} />
+            <Route path="upload" element={<Upload />} />
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>

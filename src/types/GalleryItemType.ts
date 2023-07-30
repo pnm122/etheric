@@ -2,6 +2,9 @@ export default interface GalleryItemType {
   title: string
   description: string
   type: FileType
-  timestamp: number
+  timestamp: {
+    seconds: number,
+    milliseconds: number
+  }
   src: string
 }

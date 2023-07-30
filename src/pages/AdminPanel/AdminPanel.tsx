@@ -1,49 +1,7 @@
-import { useEffect, useState } from 'react'
-import GalleryItemsType from 'types/GalleryItemsType'
-import getGalleryItems from 'utils/getGalleryItems'
 import styles from './AdminPanel.module.css'
-import GalleryItemType from 'types/GalleryItemType'
-import GalleryItem from './GalleryItem'
-import { Link } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 export default function AdminPanel() {
-  const [items, setItems] = useState<GalleryItemType[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    getGalleryItems().then((res : GalleryItemsType) => {
-      if(res) {
-        const i = res.docs.map((item) => {
-          const data = item.data() as GalleryItemType
-          return {
-            type: data.type,
-            title: data.title,
-            timestamp: data.timestamp,
-            src: data.src,
-            description: data.description
-          }
-        })
-        setItems(i)
-        setLoading(false)
-      } else {
-        console.error('Error loading files')
-      }
-    })
-  }, [])
-
-  const itemsRender = items.map(item => {
-    return (
-      <GalleryItem
-        key={item.timestamp}
-        type={item.type}
-        title={item.title}
-        timestamp={item.timestamp}
-        src={item.src}
-        description={item.description}
-      />
-    )
-  })
-
   return (
     <>
       <div className="container" data-scroll-section>
@@ -51,21 +9,7 @@ export default function AdminPanel() {
           <h1>Etheric</h1>
         </div>
       </div>
-      <main data-scroll-section>
-        <div className="container" id={styles.main}>
-          <h2 id={styles.itemsTitle}>Gallery Items</h2>
-          { loading ? (
-            <p>Loading...</p>
-          ) : (
-            <>
-              <div id={styles.items}>
-                {itemsRender}
-              </div>
-              <Link to="create" id={styles.create}>Add Item</Link>
-            </>
-          )}
-        </div>
-      </main>
+      <Outlet />
     </>
   )
 }

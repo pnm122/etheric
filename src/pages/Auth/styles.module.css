@@ -34,14 +34,6 @@
   width: 100%;
 }
 
-#form input[aria-errormessage] {
-  border-color: var(--error-color);
-}
-
-.error {
-  color: var(--error-color);
-}
-
 #form button[type="submit"] {
   padding: var(--size-md) 0;
 }

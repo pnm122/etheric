@@ -1,7 +1,6 @@
 import GalleryItemType from 'types/GalleryItemType'
 import styles from './AdminPanel.module.css'
 import { BiSolidVideo, BiSolidImageAlt, BiSolidMusic } from 'react-icons/bi'
-import { Timestamp } from 'firebase/firestore'
 import secToDateString from 'utils/secToDateString'
 
 export default function GalleryItem({ title, type, timestamp } : GalleryItemType) {

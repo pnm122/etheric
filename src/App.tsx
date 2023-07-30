@@ -14,6 +14,8 @@ import Register from 'pages/Auth/Register'
 import AdminPanel from 'pages/AdminPanel/AdminPanel'
 import isAdmin from 'utils/isAdmin'
 import Error from 'pages/Error/Error'
+import Add from 'pages/AdminPanel/Add/Add'
+import Items from 'pages/AdminPanel/Items/Items'
 
 function App() {
   const navigate = useNavigate()
@@ -82,7 +84,10 @@ function App() {
         cursor.classList.add('hover-item')
         return;
       }
-      if(tag == 'A' || tag == 'BUTTON' || target.classList.contains('hover-target')) {
+      if(tag == 'A' || 
+         tag == 'BUTTON' || 
+         target.classList.contains('hover-target') ||
+         (target.parentElement && target.parentElement.classList.contains('hover-target'))) {
         cursor.classList.add('hover')
       } else {
         cursor.className = ''
@@ -144,7 +149,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/admin" element={<AdminPanel />}>
+            <Route path="" element={<Items />} />
+            <Route path="add" element={<Add />} />
+          </Route>
           <Route path="*" element={<Error />} />
         </Routes>
       </div>

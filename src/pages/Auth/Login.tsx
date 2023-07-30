@@ -65,7 +65,7 @@ export default function Login() {
             aria-errormessage={emailError ?? undefined}
             onChange={e => setEmail(e.target.value)}>
           </input>
-          { emailError && <span className={styles.error}>{emailError}</span> }
+          { emailError && <span className="error">{emailError}</span> }
         </div>
         <div>
           <label htmlFor="password">Password</label>
@@ -76,7 +76,7 @@ export default function Login() {
             aria-errormessage={passwordError ?? undefined} 
             onChange={e => setPassword(e.target.value)}>
           </input>
-          { passwordError && <span className={styles.error}>{passwordError}</span> }
+          { passwordError && <span className="error">{passwordError}</span> }
         </div>
         <button type="submit">Login</button>
       </form>

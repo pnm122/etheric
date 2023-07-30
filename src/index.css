@@ -175,7 +175,7 @@ input, textarea, select {
   padding: var(--size-md);
   background: none;
   font-family: inherit;
-  transition: var(--transition-short);
+  transition: border-color var(--transition-short);
 }
 
 input:focus, textarea:focus, select:focus {
@@ -255,6 +255,14 @@ footer > div > * {
     flex-direction: row;
     justify-content: space-between;
   }
+}
+
+input[aria-errormessage] {
+  border-color: var(--error-color);
+}
+
+.error {
+  color: var(--error-color);
 }
 
 [type="search"]::-webkit-search-cancel-button,
@@ -367,4 +375,15 @@ footer > div > * {
 
 .gallery-item:hover {
   filter: grayscale(1);
+}
+
+.filled-button {
+  background-color: var(--on-bg);
+  color: var(--bg);
+  padding: var(--size-md) var(--size-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--size-md);
+  width: fit-content;
+  line-height: 1.2;
 }

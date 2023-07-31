@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from '../AdminPanel.module.css'
 import { AiFillCaretLeft } from 'react-icons/ai'
 import { IoMdAdd } from 'react-icons/io'
 import { MdFileUpload } from 'react-icons/md'
 import { useState } from 'react'
+import uploadItem from 'utils/uploadItem'
+import getFileType from 'utils/getFileType'
+import { useContext } from 'react'
+import { NotificationContext } from 'context/NotificationContext'
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null)
@@ -11,13 +15,15 @@ export default function Upload() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
 
+  const navigate = useNavigate()
+  const { setNotification } = useContext(NotificationContext)
+
   const handleChangeFile = (e : React.ChangeEvent<HTMLInputElement>) => {
     if(e.target.files) {
       const f = e.target.files[0]
+      const t = getFileType(f)
 
-      if(!f.type.includes('image') &&
-         !f.type.includes('video') &&
-         !f.type.includes('audio')) {
+      if(t == 'unknown') {
         setFileError('File must be an image, video, or audio.')
         setFile(null)
         return
@@ -25,8 +31,30 @@ export default function Upload() {
 
       setFileError(null)
       setFile(f)
+      // Remove file extension for default title
       setTitle(f.name.split('.')[0])
     }
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if(!file) return
+
+    uploadItem({
+      file,
+      title,
+      description
+    }).then(results => {
+      if(results[0] && results[1]) {
+        navigate('/admin')
+        setNotification(`${file.name} uploaded successfully.`, false)
+        console.log('first')
+      } else {
+        // Show some error
+        setNotification('An error occurred uploading the file.', true)
+      }
+    })
   }
 
   return (
@@ -36,8 +64,8 @@ export default function Upload() {
           <AiFillCaretLeft className="hover-target" />
           Back to Items
         </Link>
-        <div id={styles.add}>
-          <h2>Add an Item</h2>
+        <form id={styles.add} onSubmit={handleSubmit}>
+          <h2>Upload an Item</h2>
           <div>
             <div id={styles.uploadContainer}>
               <label 
@@ -74,8 +102,12 @@ export default function Upload() {
               onChange={e => setDescription(e.target.value)}
             />
           </div>
-          <button className="filled-button">Upload <MdFileUpload className="hover-target" /></button>
-        </div>
+          <button 
+            className="filled-button"
+            type="submit">
+            Upload <MdFileUpload className="hover-target" />
+          </button>
+        </form>
       </div>
     </main>
   )

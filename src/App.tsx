@@ -16,6 +16,7 @@ import isAdmin from 'utils/isAdmin'
 import Error from 'pages/Error/Error'
 import Upload from 'pages/AdminPanel/Upload/Upload'
 import Items from 'pages/AdminPanel/Items/Items'
+import NotificationProvider from 'context/NotificationContext'
 
 function App() {
   const navigate = useNavigate()
@@ -138,7 +139,7 @@ function App() {
   }, [location.pathname, location.state])
 
   return (
-    <>
+    <NotificationProvider>
       <div id="cursor">
         <span>View</span>
         <FiArrowRight />
@@ -156,7 +157,7 @@ function App() {
           <Route path="*" element={<Error />} />
         </Routes>
       </div>
-    </>
+    </NotificationProvider>
   )
 }
 

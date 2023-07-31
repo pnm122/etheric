@@ -62,6 +62,17 @@ function App() {
       })
     }
 
+    const mouseIsOnEdge = (x: number, y: number) => {
+      const CUTOFF = 10
+      const w = window.innerWidth
+      const h = window.innerHeight
+
+      return  x < CUTOFF ||
+              x > w - CUTOFF ||
+              y < CUTOFF ||
+              y > h - CUTOFF
+    }
+
     window.onmousemove = e => {
       const cursor = document.querySelector('#cursor');
       if(!cursor) return;
@@ -74,6 +85,15 @@ function App() {
         y: e.clientY,
         ease: 'power3.out'
       });
+
+      if(mouseIsOnEdge(e.clientX, e.clientY)) {
+        console.log('1')
+        cursor.classList.add('hidden')
+        return
+      } else {
+        console.log('2')
+        cursor.classList.remove('hidden')
+      }
 
       if(!e.target) return
       

@@ -360,6 +360,10 @@ input[aria-errormessage] {
   visibility: visible;
 }
 
+#cursor.hidden {
+  --cursor-size: 0px !important;
+}
+
 .animate-in {
   overflow: hidden;
   display: block;

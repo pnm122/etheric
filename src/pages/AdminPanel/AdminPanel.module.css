@@ -17,8 +17,35 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--on-bg25);
   padding: var(--size-xl) 0;
+  position: relative;
+}
+
+.galleryItem::before, .galleryItem::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  height: 1px;
+}
+
+.galleryItem::before {
+  width: 100%;
+  background-color: var(--on-bg25);
+  z-index: 0;
+}
+
+.galleryItem::after {
+  left: auto;
+  right: 0;
+  width: 0;
+  background-color: var(--on-bg50);
+  transition: var(--transition-long);
+}
+
+.galleryItem:hover::after {
+  left: 0;
+  right: auto;
+  width: 100%;
 }
 
 .itemTitle {

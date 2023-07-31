@@ -49,9 +49,7 @@ export default function Upload() {
       if(results[0] && results[1]) {
         navigate('/admin')
         setNotification(`${file.name} uploaded successfully.`, false)
-        console.log('first')
       } else {
-        // Show some error
         setNotification('An error occurred uploading the file.', true)
       }
     })

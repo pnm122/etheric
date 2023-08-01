@@ -56,7 +56,7 @@ export default function Upload() {
   }
 
   return (
-    <main data-scroll-container>
+    <main data-scroll-section>
       <div className="container">
         <Link to="/admin" id={styles.back}>
           <AiFillCaretLeft className="hover-target" />

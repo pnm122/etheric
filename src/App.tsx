@@ -87,11 +87,9 @@ function App() {
       });
 
       if(mouseIsOnEdge(e.clientX, e.clientY)) {
-        console.log('1')
         cursor.classList.add('hidden')
         return
       } else {
-        console.log('2')
         cursor.classList.remove('hidden')
       }
 
@@ -160,7 +158,7 @@ function App() {
 
   return (
     <NotificationProvider>
-      <div id="cursor">
+      <div id="cursor" className="hidden">
         <span>View</span>
         <FiArrowRight />
       </div>

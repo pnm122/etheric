@@ -5,6 +5,7 @@ import GalleryItemType from "types/GalleryItemType";
 interface Return {
   hasError: boolean
   error: any | undefined
+  data: (GalleryItemType & { url: string }) | undefined
 }
 
 export default async function getFile(slug: string) : Promise<Return> {
@@ -21,7 +22,8 @@ export default async function getFile(slug: string) : Promise<Return> {
       console.error('No data') 
       return {
         hasError: true,
-        error: 'Slug not found in the database.'
+        error: `${slug} not found in the database.`,
+        data: undefined
       }
     }
 
@@ -32,30 +34,23 @@ export default async function getFile(slug: string) : Promise<Return> {
     // Create a reference to the file we want to download
     const storage = getStorage();
     const starsRef = ref(storage, path);
-
-    try {
-
-    } catch {
-
-    }
     
     try {
       // Get the download URL
       const url = await getDownloadURL(starsRef);
-      
-      // Insert url into an <img> tag to "download"
-      console.log(`Object found at: ${url}`);
-
+      data.url = url
       return {
         hasError: false,
-        error: undefined
+        error: undefined,
+        data: (data as GalleryItemType & { url: string })
       }
     } catch (error : any) {
       if(error && (typeof error.code != 'string')) {
         console.error(`Unknown error: ${error}`)
         return {
           hasError: true,
-          error: error
+          error: error,
+          data: undefined
         }
       }
 
@@ -87,13 +82,15 @@ export default async function getFile(slug: string) : Promise<Return> {
 
       return {
         hasError: true,
-        error: errorMessage
+        error: errorMessage,
+        data: undefined
       }
     }
   } catch(e) {
     return {
       hasError: true,
-      error: e
+      error: e,
+      data: undefined
     }
   }
 }

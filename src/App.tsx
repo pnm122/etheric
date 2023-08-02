@@ -17,12 +17,13 @@ import Error from 'pages/Error/Error'
 import Upload from 'pages/AdminPanel/Upload/Upload'
 import Items from 'pages/AdminPanel/Items/Items'
 import NotificationProvider from 'context/NotificationContext'
+import SingleItem from 'pages/AdminPanel/Items/SingleItem/SingleItem'
+import LocomotiveScrollProvider from 'context/LocomotiveScrollContext'
 
 function App() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const containerRef = useRef<HTMLDivElement>(null)
   let rendered = false
 
   const firebaseConfig = {
@@ -41,27 +42,9 @@ function App() {
 
   const auth = getAuth(app)
 
-  useEffect(() => {
-    // Initialize Locomotive Scroll after all images are loaded
-    const imageElements = document.querySelectorAll('img')
-    const imgLoad = imagesLoaded(imageElements)
-    let scroll : LocomotiveScroll
-    let scrollOptions : LocomotiveScroll.InstanceOptions = {
-      smooth: true,
-      lerp: 0.08,
-      el: containerRef.current ?? undefined,
-      tablet: {
-        breakpoint: 768,
-        smooth: true
-      }
-    }
-    // make sure only one instance of locomotive scroll (just for development, doesn't effect production build)
-    if(!rendered) { 
-      imgLoad.on('done', () => {
-        scroll = new LocomotiveScroll(scrollOptions)
-      })
-    }
+  let scroll : LocomotiveScroll
 
+  useEffect(() => {
     const mouseIsOnEdge = (x: number, y: number) => {
       const CUTOFF = 10
       const w = window.innerWidth
@@ -112,15 +95,7 @@ function App() {
         cursor.className = ''
       }
     }
-
-    rendered = true
-
-    return () => {
-      if(scroll) {
-        scroll.destroy()
-      }
-    }
-  }, [location.pathname])
+  }, [])
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -156,13 +131,19 @@ function App() {
     });
   }, [location.pathname, location.state])
 
+  useEffect(() => {
+    if(!scroll) return
+
+    scroll.update()
+  }, [])
+
   return (
     <NotificationProvider>
       <div id="cursor" className="hidden">
         <span>View</span>
         <FiArrowRight />
       </div>
-      <div data-scroll-container ref={containerRef} className="diff">
+      <LocomotiveScrollProvider>
         <Routes>
           <Route path="/gallery" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
@@ -170,11 +151,12 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminPanel />}>
             <Route path="" element={<Items />} />
+            <Route path=":slug" element={<SingleItem />} />
             <Route path="upload" element={<Upload />} />
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>
-      </div>
+      </LocomotiveScrollProvider>
     </NotificationProvider>
   )
 }

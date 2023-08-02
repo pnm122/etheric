@@ -1,4 +1,8 @@
-export default interface GalleryItemType {
+type GalleryItemType = GalleryItemFromDBType & { slug: string }
+
+export type GalleryItemWithURLType = GalleryItemType & { url: string }
+
+export interface GalleryItemFromDBType {
   title: string
   description: string
   type: FileType
@@ -8,3 +12,5 @@ export default interface GalleryItemType {
   }
   src: string
 }
+
+export default GalleryItemType

@@ -99,3 +99,7 @@
 #fileName {
   font-size: var(--text-md);
 }
+
+#img {
+  width: 100%;
+}

@@ -1,6 +1,6 @@
 import GalleryItem from '../GalleryItem'
 import { useState, useEffect } from 'react'
-import GalleryItemType from 'types/GalleryItemType'
+import GalleryItemType, { GalleryItemFromDBType } from 'types/GalleryItemType'
 import GalleryItemsType from 'types/GalleryItemsType'
 import getGalleryItems from 'utils/getGalleryItems'
 import styles from '../AdminPanel.module.css'
@@ -14,12 +14,13 @@ export default function Items() {
     getGalleryItems().then((res : GalleryItemsType) => {
       if(res) {
         const i = res.docs.map((item) => {
-          const data = item.data() as GalleryItemType
+          const data = item.data() as GalleryItemFromDBType
           return {
             type: data.type,
             title: data.title,
             timestamp: data.timestamp,
             src: data.src,
+            slug: item.id, // Slug is the ID of the item
             description: data.description
           }
         })
@@ -39,6 +40,7 @@ export default function Items() {
         title={item.title}
         timestamp={item.timestamp}
         src={item.src}
+        slug={item.slug}
         description={item.description}
       />
     )

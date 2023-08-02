@@ -1,11 +1,11 @@
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
-import GalleryItemType from "types/GalleryItemType";
+import GalleryItemType, { GalleryItemWithURLType } from "types/GalleryItemType";
 
 interface Return {
   hasError: boolean
   error: any | undefined
-  data: (GalleryItemType & { url: string }) | undefined
+  data: GalleryItemWithURLType | undefined
 }
 
 export default async function getFile(slug: string) : Promise<Return> {

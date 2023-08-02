@@ -77,10 +77,6 @@
   max-width: 500px;
 }
 
-#description {
-  resize: vertical;
-}
-
 #fileUpload {
   display: none;
 }
@@ -100,6 +96,36 @@
   font-size: var(--text-md);
 }
 
-#img {
+#itemEdit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-lg);
+  margin-bottom: var(--size-lg);
+}
+
+#content {
+  flex-shrink: 1;
+  min-width: 250px;
+  height: fit-content;
+}
+
+#editForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-lg);
+  max-width: 500px;
+}
+
+#editForm input, #editForm textarea {
   width: 100%;
+}
+
+@media (width > 768px) {
+  #itemEdit {
+    flex-direction: row;
+  }
+
+  #editForm {
+    width: 100%;
+  }
 }

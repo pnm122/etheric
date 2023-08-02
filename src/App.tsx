@@ -62,7 +62,7 @@ function App() {
 
       // Enable the trailing effect using GSAP
       gsap.to(cursor, {
-        duration: 0.5, // Adjust the duration as per your preference
+        duration: 0.5,
         scale: 1,
         x: e.clientX,
         y: e.clientY,
@@ -81,6 +81,12 @@ function App() {
       const target = (e.target as HTMLElement)
 
       const tag = target.tagName
+      const disabled = target.attributes.getNamedItem('aria-disabled')
+
+      if(disabled && disabled.value == 'true') {
+        cursor.className = ''
+        return
+      }
 
       if(target.classList.contains('gallery-item')) {
         cursor.classList.add('hover-item')

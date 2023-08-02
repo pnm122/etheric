@@ -114,6 +114,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
 }
 
+textarea {
+  resize: vertical;
+}
+
 th, button, input, textarea, select {
   color: var(--on-bg);
 }
@@ -281,6 +285,10 @@ input[aria-errormessage] {
   margin: 0;
 }
 
+[aria-disabled=true] {
+  cursor: default;
+}
+
 .secondary {
   color: var(--on-bg25);
 }
@@ -390,4 +398,8 @@ input[aria-errormessage] {
   gap: var(--size-md);
   width: fit-content;
   line-height: 1.2;
+}
+
+.filled-button[aria-disabled=true] {
+  background-color: var(--on-bg25);
 }

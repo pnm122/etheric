@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import styles from './Homepage.module.css'
 import { gsap } from "gsap"
 import SplitType from "split-type"
@@ -6,9 +6,15 @@ import GalleryItem from "components/GalleryItem/GalleryItem"
 import { textFrom, textTo } from "utils/textAnimateOptions"
 import Header from "components/Header/Header"
 import Footer from "components/Footer/Footer"
+import getAllFiles from "utils/getAllFiles"
+import { NotificationContext } from "context/NotificationContext"
+import { GalleryItemWithURLType } from "types/GalleryItemType"
 
 export default function Homepage() {
   const [loading, setLoading] = useState(true)
+  const [galleryItems, setGalleryItems] = useState<GalleryItemWithURLType[]>([])
+
+  const { setNotification } = useContext(NotificationContext)
 
   const tl = gsap.timeline()
   
@@ -41,12 +47,36 @@ export default function Homepage() {
   }
 
   useEffect(() => {
-    const t = setTimeout(() => {
-      animateIn()
-    }, 1500)
+    getAllFiles().then(res => {
+      if(!res) {
+        setNotification('Failed to load gallery', true)
+        return
+      }
 
-    return () => clearTimeout(t)
+      setGalleryItems(res as GalleryItemWithURLType[])
+    })
   }, [])
+
+  useEffect(() => {
+    if(galleryItems.length == 0) return
+
+    animateIn()
+  }, [galleryItems])
+
+  const galleryItemsRender = galleryItems.map((item, index) => {
+    return (
+      <GalleryItem
+        key={index}
+        title={item.title}
+        type={item.type}
+        src={item.src}
+        description={item.description}
+        slug={item.slug}
+        timestamp={item.timestamp}
+        url={item.url}
+      />
+    )
+  })
 
   return (
     <>
@@ -56,20 +86,7 @@ export default function Homepage() {
       </div>
       <main data-scroll-section>
         <div className="container" id={styles.gallery}>
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
-          <GalleryItem />
+          {galleryItemsRender}
         </div>
       </main>
       <Footer />

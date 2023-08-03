@@ -19,7 +19,6 @@ export default async function getFile(slug: string) : Promise<Return> {
     let data = d.data()
 
     if(!data) {
-      console.error('No data') 
       return {
         hasError: true,
         error: `${slug} not found in the database.`,
@@ -42,7 +41,7 @@ export default async function getFile(slug: string) : Promise<Return> {
       return {
         hasError: false,
         error: undefined,
-        data: (data as GalleryItemType & { url: string })
+        data: (data as GalleryItemWithURLType)
       }
     } catch (error : any) {
       if(error && (typeof error.code != 'string')) {

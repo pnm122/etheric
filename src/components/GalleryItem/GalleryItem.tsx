@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
 import styles from './GalleryItem.module.css'
+import { GalleryItemWithURLType } from 'types/GalleryItemType';
 
-export default function GalleryItem() {
-  // const [mobile, setMobile] = useState(false)
-
+export default function GalleryItem({ title, type, url } : GalleryItemWithURLType) {
   const scrollSpeed = Math.random() * 3;
-
-  // useEffect(() => {
-  //   setMobile(window.innerWidth <= 768)
-
-  //   window.onresize = e => {
-  //     setMobile(window.innerWidth <= 768)
-  //   }
-  // }, [])
 
   return (
     <div className={styles.container} data-scroll data-scroll-speed={scrollSpeed}>
-      <span className="text animate-in">Gallery Item</span>
+      <span className="text animate-in">{title}</span>
       <a className={`${styles.img} img animate-in`}>
-        <img alt="Placeholder" src="assets/placeholders/2.png" className="gallery-item"></img>
+        { type == 'image' ? (
+          <img alt={title} src={url} className="gallery-item"></img>
+        ) : type == 'video' ? (
+          <video src={url} className="gallery-item"></video>
+        ) : type == 'audio' ? (
+          <div><span>TODO: AUDIO</span></div>
+        ) : (
+          <div><span>Unknown file type: {type}</span></div>
+        )}
       </a>
     </div>
   )

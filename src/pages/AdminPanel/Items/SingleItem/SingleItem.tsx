@@ -6,6 +6,9 @@ import { NotificationContext } from 'context/NotificationContext'
 import { GalleryItemWithURLType } from 'types/GalleryItemType'
 import { LocomotiveScrollContext } from 'context/LocomotiveScrollContext'
 import { GrUpdate } from 'react-icons/gr'
+import { BiSolidTrashAlt } from 'react-icons/bi'
+import updateItem from 'utils/updateItem'
+import deleteItem from 'utils/deleteItem'
 
 export default function SingleItem() {
   const [data, setData] = useState<GalleryItemWithURLType | null>(null)
@@ -57,8 +60,37 @@ export default function SingleItem() {
     update()
   }, [data])
 
-  const handleSubmit = (e : React.FormEvent) => {
+  const handleUpdate = (e : React.FormEvent) => {
     e.preventDefault()
+    
+    if(!edited) return
+
+    // Slug must be non-null since we would have navigated otherwise
+    updateItem({id: slug!, title, description}).then(res => {
+      if(res) {
+        setNotification('Update successful!', false)
+        setEdited(false)
+      } else {
+        setNotification('Update failed. Check the console.', true)
+      }
+    }).catch(e => {
+      console.error(e)
+      setNotification('An error occurred. Check the console.', true)
+    })
+  }
+
+  const handleDelete = () => {
+    deleteItem(slug!).then(res => {
+      if(res) {
+        setNotification(`Successfully deleted ${slug}.`, false)
+        navigate('/admin')
+      } else {
+        setNotification('Delete failed. Check the console.', true)
+      }
+    }).catch(e => {
+      console.error(e)
+      setNotification('An error occurred. Check the console.', true)
+    })
   }
 
   const updateTitle = (newTitle: string) => {
@@ -83,8 +115,8 @@ export default function SingleItem() {
             ) : data.type =='audio' ? (
               <img id={styles.content} src={data.url}></img>
             ) : <span className="error">Unknown Data Type: {data.type}</span>}
-            <form id={styles.editForm} onSubmit={handleSubmit}>
-              <h2>Edit Metadata</h2>
+            <form id={styles.editForm} onSubmit={handleUpdate}>
+              <h2>Edit</h2>
               <div>
                 <label htmlFor="title">Title</label>
                 <input 
@@ -103,10 +135,16 @@ export default function SingleItem() {
                   placeholder='Give this item a description...'
                 />
               </div>
-              <button aria-disabled={!edited} className="filled-button">
-                Update
-                <GrUpdate className={edited ? 'hover-target' : undefined } />
-              </button>
+              <div id={styles.itemButtons}>
+                <button type="submit" aria-disabled={!edited} className="filled-button">
+                  Update
+                  <GrUpdate className={edited ? 'hover-target' : undefined } />
+                </button>
+                <button type="button" className="filled-button" onClick={handleDelete}>
+                  Delete
+                  <BiSolidTrashAlt className='hover-target' />
+                </button>
+              </div>
             </form>
           </div>
         ) : (

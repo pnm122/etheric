@@ -30,7 +30,6 @@ export default async function uploadItem({ file, title, description } : Props) {
   const r = ref(storage, file.name)
 
   const storagePromise = uploadBytes(r, file).then(res => {
-    console.log(res)
     return true
   }).catch(e => {
     console.error(e)

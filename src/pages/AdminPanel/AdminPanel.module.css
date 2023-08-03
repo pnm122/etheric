@@ -125,7 +125,17 @@
     flex-direction: row;
   }
 
-  #editForm {
-    width: 100%;
+  #content {
+    flex-grow: 1;
   }
+
+  #editForm {
+    width: 33.333%;
+    max-width: initial;
+  }
+}
+
+#itemButtons {
+  display: flex;
+  gap: var(--size-lg);
 }

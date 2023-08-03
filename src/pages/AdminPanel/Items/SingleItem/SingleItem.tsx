@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useContext, useState } from 'react'
 import styles from '../../AdminPanel.module.css'
 import getFile from 'utils/getFile'
@@ -9,6 +9,7 @@ import { GrUpdate } from 'react-icons/gr'
 import { BiSolidTrashAlt } from 'react-icons/bi'
 import updateItem from 'utils/updateItem'
 import deleteItem from 'utils/deleteItem'
+import { AiFillCaretLeft } from 'react-icons/ai'
 
 export default function SingleItem() {
   const [data, setData] = useState<GalleryItemWithURLType | null>(null)
@@ -106,6 +107,10 @@ export default function SingleItem() {
   return (
     <main data-scroll-section>
       <div className="container">
+        <Link to="/admin" id={styles.back}>
+          <AiFillCaretLeft className="hover-target" />
+          Back to Items
+        </Link>
         { data ? (
           <div id={styles.itemEdit}>
             { data.type == 'image' ? (

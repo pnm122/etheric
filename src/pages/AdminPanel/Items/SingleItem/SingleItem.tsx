@@ -80,8 +80,8 @@ export default function SingleItem() {
   }
 
   const handleDelete = () => {
-    deleteItem(slug!).then(res => {
-      if(res) {
+    deleteItem(slug!, data!.src).then(res => {
+      if(res[0] && res[1]) {
         setNotification(`Successfully deleted ${slug}.`, false)
         navigate('/admin')
       } else {
@@ -111,7 +111,7 @@ export default function SingleItem() {
             { data.type == 'image' ? (
                 <img id={styles.content} src={data.url} alt={data.title}></img>
             ) : data.type == 'video' ? (
-              <video id={styles.content} src={data.url}></video>
+              <video controls={true} id={styles.content} src={data.url}></video>
             ) : data.type =='audio' ? (
               <img id={styles.content} src={data.url}></img>
             ) : <span className="error">Unknown Data Type: {data.type}</span>}

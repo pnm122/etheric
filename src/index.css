@@ -265,6 +265,10 @@ input[aria-errormessage] {
   border-color: var(--error-color);
 }
 
+.header-text[aria-hidden=true] {
+  visibility: hidden;
+}
+
 .error {
   color: var(--error-color);
 }

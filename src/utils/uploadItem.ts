@@ -62,11 +62,22 @@ export default async function uploadItem({ file, audioCoverFile, title, descript
 // TODO: needs to be filtered into alphanumeric only
 // TODO: remove unnecessary spaces
 function getSlugFrom(title : string) {
-  let newTitle = title.trim()
-  // Since they cause issues with URLs
-  for(let char of newTitle) {
-    console.log(char)
+  title = title.trim()
+  let newTitle = ''
+  // Since anything non-alphanumeric can cause issues with URLs,
+  // replace them
+  for(let i = 0; i < title.length; i++) {
+    let code = title.charCodeAt(i);
+    if(code == 32) {
+      newTitle += '-'
+    } else if (!(code > 47 && code < 58) && // numeric (0-9)
+               !(code > 64 && code < 91) && // upper alpha (A-Z)
+               !(code > 96 && code < 123)) { // lower alpha (a-z)
+      newTitle += '_'
+    } else {
+      newTitle += title.charAt(i).toLowerCase()
+    }
   }
 
-  return newTitle.toLowerCase().split(' ').join('-')
+  return newTitle
 }

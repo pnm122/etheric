@@ -66,7 +66,7 @@ export default function Homepage() {
   const galleryItemsRender = galleryItems.map((item, index) => {
     return (
       <GalleryItem
-        key={index}
+        key={item.title + item.src}
         title={item.title}
         type={item.type}
         src={item.src}

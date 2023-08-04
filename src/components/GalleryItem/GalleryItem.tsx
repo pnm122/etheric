@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import styles from './GalleryItem.module.css'
 import { GalleryItemWithURLType } from 'types/GalleryItemType';
 

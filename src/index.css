@@ -29,6 +29,12 @@ body {
   --on-bg25: rgb(64, 64, 64);
   --on-bg50: rgb(127, 127, 127);
   --error-color: rgb(255, 81, 62);
+  --red: #D21825;
+  --blue: #004ED3;
+  --green: #50C300;
+  --audio-1: rgb(5, 62, 31);
+  --audio-2: rgb(39, 18, 96);
+  --audio-3: rgb(127, 26, 53);
 
   --text-xs: 0.6rem;
   --text-sm: 0.75rem;
@@ -387,10 +393,6 @@ input[aria-errormessage] {
 
 .gallery-item {
   transition: filter var(--transition-med);
-}
-
-.gallery-item:hover {
-  filter: grayscale(1);
 }
 
 .filled-button {

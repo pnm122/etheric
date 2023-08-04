@@ -46,7 +46,7 @@ export default function Items() {
   })
 
   return (
-    <main data-scroll-section>
+    <main id={styles.outlet} data-scroll-section>
       <div className="container" id={styles.main}>
         <h2 id={styles.itemsTitle}>Gallery Items</h2>
         { loading ? (

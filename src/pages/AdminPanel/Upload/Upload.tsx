@@ -11,7 +11,9 @@ import { NotificationContext } from 'context/NotificationContext'
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null)
+  const [audioCoverFile, setAudioCoverFile] = useState<File | null>(null)
   const [fileError, setFileError] = useState<string | null>(null)
+  const [audioCoverFileError, setAudioCoverFileError] = useState<string | null>(null)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
 
@@ -36,17 +38,42 @@ export default function Upload() {
     }
   }
 
+  const handleChangeCoverFile = (e : React.ChangeEvent<HTMLInputElement>) => {
+    if(e.target.files) {
+      const f = e.target.files[0]
+      const t = getFileType(f)
+
+      if(t != 'image') {
+        setAudioCoverFileError('Cover image must be an image.')
+        setAudioCoverFile(null)
+        return
+      }
+
+      setAudioCoverFileError(null)
+      setAudioCoverFile(f)
+    }
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    if(!file) return
+    if(!file) {
+      setFileError('Please upload a file.')
+      return
+    }
+
+    if(file && file.type.includes('audio') && !audioCoverFile) {
+      setAudioCoverFileError('Please upload a cover image with an audio file.')
+      return
+    }
 
     uploadItem({
       file,
+      audioCoverFile,
       title,
       description
     }).then(results => {
-      if(results[0] && results[1]) {
+      if(results[0] && results[1] && (results[2] != null ? results[2] : true)) {
         navigate('/admin')
         setNotification(`${file.name} uploaded successfully.`, false)
       } else {
@@ -56,7 +83,7 @@ export default function Upload() {
   }
 
   return (
-    <main data-scroll-section>
+    <main id={styles.outlet} data-scroll-section>
       <div className="container">
         <Link to="/admin" id={styles.back}>
           <AiFillCaretLeft className="hover-target" />
@@ -65,24 +92,46 @@ export default function Upload() {
         <form id={styles.add} onSubmit={handleSubmit}>
           <h2>Upload an Item</h2>
           <div>
-            <div id={styles.uploadContainer}>
+            <div className={styles.uploadContainer}>
               <label 
-                id={styles.fileUploadButton}
-                htmlFor={styles.fileUpload}
-                className="filled-button hover-target"
+                htmlFor="file-upload"
+                className={`filled-button hover-target ${styles.fileUploadButton}`}
                 aria-errormessage={fileError ?? undefined}>
                 Choose a File <IoMdAdd className="hover-target" />
               </label>
-              <span id={styles.fileName}>{file && file.name}</span>
+              <span className={styles.fileName}>{file && file.name}</span>
             </div>
             <input 
-              id={styles.fileUpload}
+              id="file-upload"
+              className={styles.fileUpload}
               type="file"
               onChange={handleChangeFile}
               aria-errormessage={fileError ?? undefined}
             />
             { fileError && <span className="error">{fileError}</span> }
           </div>
+          {/* If the user uploads an audio file, they need to upload a cover image as well. */}
+          { file && file.type.includes('audio') ? (
+            <div>
+              <div className={styles.uploadContainer}>
+                <label 
+                  htmlFor="cover-upload"
+                  className={`filled-button hover-target ${styles.fileUploadButton}`}
+                  aria-errormessage={fileError ?? undefined}>
+                  Choose a Cover Image <IoMdAdd className="hover-target" />
+                </label>
+                <span className={styles.fileName}>{audioCoverFile && audioCoverFile.name}</span>
+              </div>
+              <input 
+                id="cover-upload"
+                className={styles.fileUpload}
+                type="file"
+                onChange={handleChangeCoverFile}
+                aria-errormessage={fileError ?? undefined}
+              />
+              { audioCoverFileError && <span className="error">{audioCoverFileError}</span> }
+            </div>
+          ) : ( <></> )}
           <div>
             <label htmlFor="title">Title</label>
             <input 

@@ -11,6 +11,7 @@ export interface GalleryItemFromDBType {
     milliseconds: number
   }
   src: string
+  coverSrc?: string
 }
 
 export default GalleryItemType

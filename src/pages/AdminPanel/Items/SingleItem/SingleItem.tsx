@@ -81,8 +81,8 @@ export default function SingleItem() {
   }
 
   const handleDelete = () => {
-    deleteItem(slug!, data!.src).then(res => {
-      if(res[0] && res[1]) {
+    deleteItem(slug!, data!.src, data!.coverSrc).then(res => {
+      if(res[0] && res[1] && (res[2] != null ? res[2] : true)) {
         setNotification(`Successfully deleted ${slug}.`, false)
         navigate('/admin')
       } else {
@@ -105,7 +105,7 @@ export default function SingleItem() {
   }
 
   return (
-    <main data-scroll-section>
+    <main id={styles.outlet} data-scroll-section>
       <div className="container">
         <Link to="/admin" id={styles.back}>
           <AiFillCaretLeft className="hover-target" />

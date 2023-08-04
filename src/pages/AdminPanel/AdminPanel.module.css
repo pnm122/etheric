@@ -87,22 +87,22 @@
   max-width: 500px;
 }
 
-#fileUpload {
+.fileUpload {
   display: none;
 }
 
-#fileUploadButton {
+.fileUploadButton {
   font-size: var(--text-md);
   cursor: pointer;
 }
 
-#uploadContainer {
+.uploadContainer {
   display: flex;
   align-items: center;
   gap: var(--size-lg);
 }
 
-#fileName {
+.fileName {
   font-size: var(--text-md);
 }
 
@@ -148,4 +148,8 @@
 #itemButtons {
   display: flex;
   gap: var(--size-lg);
+}
+
+#outlet {
+  padding-bottom: var(--size-xl);
 }

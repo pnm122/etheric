@@ -2,7 +2,7 @@ import styles from './GalleryItem.module.css'
 import { GalleryItemWithURLType } from 'types/GalleryItemType';
 
 export default function GalleryItem({ title, type, url } : GalleryItemWithURLType) {
-  const scrollSpeed = Math.random() * 3;
+  const scrollSpeed = Math.random() * 2.5 + 0.5;
 
   return (
     <div className={styles.container} data-scroll data-scroll-speed={scrollSpeed}>

@@ -43,5 +43,11 @@ export default async function uploadItem({ file, title, description } : Props) {
 // TODO: needs to be filtered into alphanumeric only
 // TODO: remove unnecessary spaces
 function getSlugFrom(title : string) {
-  return title.toLowerCase().split(' ').join('-')
+  let newTitle = title.trim()
+  // Since they cause issues with URLs
+  for(let char of newTitle) {
+    console.log(char)
+  }
+
+  return newTitle.toLowerCase().split(' ').join('-')
 }

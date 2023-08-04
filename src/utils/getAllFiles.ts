@@ -41,5 +41,9 @@ export default async function getAllFiles() : Promise<GalleryItemWithURLType[] |
 
   if(error) return false
 
+  fileList = fileList.sort((file1, file2) => {
+    return file2.timestamp.seconds - file1.timestamp.seconds
+  })
+
   return fileList
 }

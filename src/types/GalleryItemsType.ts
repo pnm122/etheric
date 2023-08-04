@@ -1,5 +1,6 @@
-import { QuerySnapshot } from "firebase/firestore";
 
-type GalleryItemsType = QuerySnapshot | null
+import GalleryItemType, { GalleryItemFromDBType } from "./GalleryItemType";
+
+type GalleryItemsType = GalleryItemType[] | null
 
 export default GalleryItemsType

@@ -13,15 +13,14 @@ export default function Items() {
   useEffect(() => {
     getGalleryItems().then((res : GalleryItemsType) => {
       if(res) {
-        const i = res.docs.map((item) => {
-          const data = item.data() as GalleryItemFromDBType
+        const i = res.map((item) => {
           return {
-            type: data.type,
-            title: data.title,
-            timestamp: data.timestamp,
-            src: data.src,
-            slug: item.id, // Slug is the ID of the item
-            description: data.description
+            type: item.type,
+            title: item.title,
+            timestamp: item.timestamp,
+            src: item.src,
+            slug: item.slug,
+            description: item.description
           }
         })
         setItems(i)

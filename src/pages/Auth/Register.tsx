@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import styles from './styles.module.css'
-import { getAuth, createUserWithEmailAndPassword, UserCredential } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
 export default function Register() {
   const [email, setEmail] = useState('')
@@ -12,7 +12,6 @@ export default function Register() {
   const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null)
   const location = useLocation()
   const auth = getAuth()
-  const navigate = useNavigate()
 
   useEffect(() => {
     // Keep the information the user entered into the register page
@@ -41,7 +40,7 @@ export default function Register() {
     }
 
     createUserWithEmailAndPassword(auth, email, password)
-    .then(res => {
+    .then(() => {
       // navigation handled by onAuthStateChanged
     })
     .catch(e => {

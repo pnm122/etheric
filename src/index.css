@@ -4,14 +4,6 @@
   box-sizing: border-box;
 }
 
-::view-transition-old(root) {
-
-}
-
-::view-transition-new(root) {
-
-}
-
 :root {
   font-family: "Neue Haas Grotesk Text Pro", "Arimo", system-ui;
 

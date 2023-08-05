@@ -37,7 +37,7 @@ export default async function uploadItem({ file, audioCoverFile, title, descript
 
   const fileRef = ref(storage, file.name)
 
-  const filePromise = uploadBytes(fileRef, file).then(res => {
+  const filePromise = uploadBytes(fileRef, file).then(() => {
     return true
   }).catch(e => {
     console.error(e)
@@ -48,7 +48,7 @@ export default async function uploadItem({ file, audioCoverFile, title, descript
 
   const coverRef = ref(storage, audioCoverFile.name)
 
-  const coverPromise = uploadBytes(coverRef, audioCoverFile).then(res => {
+  const coverPromise = uploadBytes(coverRef, audioCoverFile).then(() => {
     return true
   }).catch(e => {
     console.error(e)

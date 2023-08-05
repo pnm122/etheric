@@ -7,7 +7,7 @@ interface NotificationContextType {
 }
 
 export const NotificationContext = createContext<NotificationContextType>({
-  setNotification: (c, d) => {},
+  setNotification: () => {},
   closeNotification: () => {}
 })
 

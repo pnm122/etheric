@@ -14,7 +14,7 @@ export default async function updateItem({ id, title, description } : Props) {
     description
   }, {
     merge: true
-  }).then(res => {
+  }).then(() => {
     return true
   }).catch(e => {
     console.error(e)

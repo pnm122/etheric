@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './styles.module.css'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
 export default function Login() {
@@ -10,7 +10,6 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState<string | null>(null)
   const location = useLocation()
   const auth = getAuth()
-  const navigate = useNavigate()
 
   useEffect(() => {
     // Keep the information the user entered into the register page
@@ -24,7 +23,7 @@ export default function Login() {
     e.preventDefault()
 
     signInWithEmailAndPassword(auth, email, password)
-    .then(res => {
+    .then(() => {
       // navigation handled by onAuthStateChanged
     })
     .catch(e => {

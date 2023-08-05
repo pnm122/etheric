@@ -2,14 +2,13 @@ import { NotificationContext } from 'context/NotificationContext'
 import { gsap } from 'gsap'
 import { useEffect, useState, useContext } from 'react'
 import { HiX } from 'react-icons/hi'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import SplitType from 'split-type'
 import getTitle from 'utils/getTitle'
 import { textFrom, textTo } from 'utils/textAnimateOptions'
 
 export default function Header({isSingleItem = false}) {
   const [siteTitle, setSiteTitle] = useState('')
-  const location = useLocation()
   const { setNotification } = useContext(NotificationContext)
 
   useEffect(() => {
@@ -20,7 +19,7 @@ export default function Header({isSingleItem = false}) {
       }
 
       setSiteTitle(res)
-    }).catch(e => {
+    }).catch(() => {
       setNotification('Unable to retrieve site title', true)
     })
   }, [])

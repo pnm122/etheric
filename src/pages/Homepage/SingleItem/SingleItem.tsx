@@ -8,10 +8,10 @@ import getFile from 'utils/getFile'
 import { GalleryItemWithURLType } from 'types/GalleryItemType'
 import styles from './SingleItem.module.css'
 import getSlugs from 'utils/getSlugs'
-import { gsap } from 'gsap'
-import SplitType from 'split-type'
-import { textFrom, textTo } from 'utils/textAnimateOptions'
-import debounce from 'lodash.debounce'
+// import { gsap } from 'gsap'
+// import SplitType from 'split-type'
+// import { textFrom, textTo } from 'utils/textAnimateOptions'
+// import debounce from 'lodash.debounce'
 
 export default function SingleItem() {
   const [data, setData] = useState<GalleryItemWithURLType | null>(null)
@@ -31,7 +31,7 @@ export default function SingleItem() {
       }
 
       setSlugs(slugs)
-    }).catch(e => {
+    }).catch(() => {
       setNotification('Unable to retrieve all slugs', true)
       navigate('/gallery')
     })

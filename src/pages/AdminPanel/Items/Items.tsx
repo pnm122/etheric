@@ -1,6 +1,6 @@
 import GalleryItem from '../GalleryItem'
 import { useState, useEffect } from 'react'
-import GalleryItemType, { GalleryItemFromDBType } from 'types/GalleryItemType'
+import GalleryItemType from 'types/GalleryItemType'
 import GalleryItemsType from 'types/GalleryItemsType'
 import getGalleryItems from 'utils/getGalleryItems'
 import styles from '../AdminPanel.module.css'

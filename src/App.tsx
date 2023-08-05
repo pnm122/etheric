@@ -1,12 +1,12 @@
 import Homepage from 'pages/Homepage/Homepage.tsx'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import 'base.css'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { gsap } from 'gsap'
 import { FiArrowRight } from 'react-icons/fi'
 import LocomotiveScroll from 'locomotive-scroll'
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+// import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import Login from 'pages/Auth/Login'
 import Register from 'pages/Auth/Register'
@@ -24,8 +24,6 @@ function App() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  let rendered = false
-
   const firebaseConfig = {
     apiKey: import.meta.env.VITE_APIKEY,
     authDomain: "etheric-fc36d.firebaseapp.com",
@@ -38,7 +36,7 @@ function App() {
   
   // Initialize Firebase
   const app = initializeApp(firebaseConfig)
-  const analytics = getAnalytics(app)
+  // const analytics = getAnalytics(app)
 
   const auth = getAuth(app)
 

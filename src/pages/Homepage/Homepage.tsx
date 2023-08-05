@@ -11,7 +11,6 @@ import { NotificationContext } from "context/NotificationContext"
 import { GalleryItemWithURLType } from "types/GalleryItemType"
 
 export default function Homepage() {
-  const [loading, setLoading] = useState(true)
   const [galleryItems, setGalleryItems] = useState<GalleryItemWithURLType[]>([])
 
   const { setNotification } = useContext(NotificationContext)
@@ -19,8 +18,6 @@ export default function Homepage() {
   const tl = gsap.timeline()
   
   const animateIn = () => {
-    setLoading(false)
-
     const SLIDE_OUT_DURATION = 0.8
     const GALLERY_DELAY = 0.5
 

@@ -1,5 +1,5 @@
 import LocomotiveScroll from 'locomotive-scroll'
-import { createContext, useState, useEffect, useRef, useLayoutEffect } from 'react'
+import { createContext, useState, useRef, useLayoutEffect } from 'react'
 import imagesLoaded from 'imagesloaded'
 
 interface LocomotiveScrollContextType {
@@ -20,7 +20,6 @@ interface Props {
 
 export default function LocomotiveScrollProvider({children} : Props) {
   const [ready, setReady] = useState(false)
-  const [rendered, setRendered] = useState(false)
   const [scroll, setScroll] = useState<LocomotiveScroll | null>(null)
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -48,7 +47,6 @@ export default function LocomotiveScrollProvider({children} : Props) {
     imgLoad.on('done', () => {
       setScroll(new LocomotiveScroll(scrollOptions))
       setReady(true)
-      setRendered(true)
     })
 
     return () => {

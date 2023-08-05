@@ -1,5 +1,5 @@
 
-import GalleryItemType, { GalleryItemFromDBType } from "./GalleryItemType";
+import GalleryItemType from "./GalleryItemType";
 
 type GalleryItemsType = GalleryItemType[] | null
 

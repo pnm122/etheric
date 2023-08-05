@@ -34,7 +34,7 @@ export default function AdminPanel() {
       }
 
       setSiteTitle(res)
-    }).catch(e => {
+    }).catch(() => {
       setNotification('Unable to retrieve site title', true)
     })
   }, [])

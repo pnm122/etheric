@@ -20,7 +20,7 @@ export default function SingleItem() {
 
   const { slug } = useParams()
   const { setNotification } = useContext(NotificationContext)
-  const { ready, update } = useContext(LocomotiveScrollContext)
+  const { update } = useContext(LocomotiveScrollContext)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -120,6 +120,7 @@ export default function SingleItem() {
               coverUrl={data.coverUrl}
               type={data.type}
               title={data.title}
+              singleItem={false}
             />
             <form id={styles.editForm} onSubmit={handleUpdate}>
               <h2>Edit</h2>

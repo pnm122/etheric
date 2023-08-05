@@ -30,7 +30,7 @@ interface Time {
   seconds: number
 }
 
-const AudioPlayer = ({ singleItem, url, coverUrl, title} : Props) => {
+const AudioPlayer = ({ singleItem, url, coverUrl } : Props) => {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [duration, setDuration] = useState<Time | null>(null)
   const [position, setPosition] = useState<Time | null>(null)

@@ -5,14 +5,14 @@ export default async function deleteItem(id: string, src: string, coverSrc: stri
   const db = getFirestore()
   const storage = getStorage()
 
-  const firebaseDelete = deleteDoc(doc(db, 'files', id)).then(res => {
+  const firebaseDelete = deleteDoc(doc(db, 'files', id)).then(() => {
     return true
   }).catch(e => {
     console.error(e)
     return false
   })
 
-  const fileDelete = deleteObject(ref(storage, src)).then(res => {
+  const fileDelete = deleteObject(ref(storage, src)).then(() => {
     return true
   }).catch(e => {
     console.error(e)
@@ -21,7 +21,7 @@ export default async function deleteItem(id: string, src: string, coverSrc: stri
 
   if(!coverSrc) return Promise.all([firebaseDelete, fileDelete])
 
-  const coverDelete = deleteObject(ref(storage, coverSrc)).then(res => {
+  const coverDelete = deleteObject(ref(storage, coverSrc)).then(() => {
     return true
   }).catch(e => {
     console.error(e)

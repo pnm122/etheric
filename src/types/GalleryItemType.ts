@@ -1,6 +1,6 @@
 type GalleryItemType = GalleryItemFromDBType & { slug: string }
 
-export type GalleryItemWithURLType = GalleryItemType & { url: string }
+export type GalleryItemWithURLType = GalleryItemType & { url: string, coverUrl: string }
 
 export interface GalleryItemFromDBType {
   title: string

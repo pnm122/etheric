@@ -10,6 +10,7 @@ import { BiSolidTrashAlt } from 'react-icons/bi'
 import updateItem from 'utils/updateItem'
 import deleteItem from 'utils/deleteItem'
 import { AiFillCaretLeft } from 'react-icons/ai'
+import FileDisplay from 'components/FileDisplay/FileDisplay'
 
 export default function SingleItem() {
   const [data, setData] = useState<GalleryItemWithURLType | null>(null)
@@ -113,13 +114,12 @@ export default function SingleItem() {
         </Link>
         { data ? (
           <div id={styles.itemEdit}>
-            { data.type == 'image' ? (
-                <img id={styles.content} src={data.url} alt={data.title}></img>
-            ) : data.type == 'video' ? (
-              <video controls={true} id={styles.content} src={data.url}></video>
-            ) : data.type =='audio' ? (
-              <img id={styles.content} src={data.url}></img>
-            ) : <span className="error">Unknown Data Type: {data.type}</span>}
+            <FileDisplay 
+              url={data.url}
+              coverUrl={data.coverUrl}
+              type={data.type}
+              title={data.title}
+            />
             <form id={styles.editForm} onSubmit={handleUpdate}>
               <h2>Edit</h2>
               <div>

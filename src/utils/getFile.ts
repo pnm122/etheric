@@ -37,7 +37,16 @@ export default async function getFile(slug: string) : Promise<Return> {
     try {
       // Get the download URL
       const url = await getDownloadURL(starsRef);
-      data.url = url
+      (data as GalleryItemWithURLType).url = url
+
+      const coverSrc = (data as GalleryItemWithURLType).coverSrc
+      if(coverSrc) {
+        const coverUrl = await getDownloadURL(ref(storage, coverSrc))
+        data.coverUrl = coverUrl
+      }
+
+      console.log(data)
+
       return {
         hasError: false,
         error: undefined,

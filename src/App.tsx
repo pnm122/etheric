@@ -4,7 +4,6 @@ import 'base.css'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { FiArrowRight } from 'react-icons/fi'
-import imagesLoaded from 'imagesloaded'
 import LocomotiveScroll from 'locomotive-scroll'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -18,6 +17,7 @@ import Upload from 'pages/AdminPanel/Upload/Upload'
 import Items from 'pages/AdminPanel/Items/Items'
 import NotificationProvider from 'context/NotificationContext'
 import SingleItem from 'pages/AdminPanel/Items/SingleItem/SingleItem'
+import HomepageSingleItem from 'pages/Homepage/SingleItem/SingleItem'
 import LocomotiveScrollProvider from 'context/LocomotiveScrollContext'
 
 function App() {
@@ -151,7 +151,10 @@ function App() {
       </div>
       <LocomotiveScrollProvider>
         <Routes>
-          <Route path="/gallery" element={<Homepage />} />
+          <Route path="/gallery">
+            <Route path="" element={<Homepage />} />
+            <Route path=":slug" element={<HomepageSingleItem />} />
+          </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />

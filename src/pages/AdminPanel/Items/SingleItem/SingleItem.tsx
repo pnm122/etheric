@@ -25,7 +25,8 @@ export default function SingleItem() {
 
   useEffect(() => {
     if(slug == null) {
-      // TODO: show an error
+      setNotification('No slug found, check console.', true)
+      navigate('/admin')
       return
     }
 

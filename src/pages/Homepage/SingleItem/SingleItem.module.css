@@ -1,0 +1,26 @@
+#data {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-lg);
+}
+
+@media (width > 768px) {
+  #data {
+    gap: var(--size-2xl);
+  }
+}
+
+#title {
+  word-wrap: break-word;
+}
+
+#description {
+  color: var(--on-bg50);
+  text-transform: none;
+}
+
+#nav {
+  display: flex;
+  gap: var(--size-lg);
+  font-size: var(--text-lg);
+}

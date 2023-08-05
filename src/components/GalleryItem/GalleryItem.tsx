@@ -1,28 +1,24 @@
-import { BiSolidMusic } from 'react-icons/bi';
 import styles from './GalleryItem.module.css'
 import { GalleryItemWithURLType } from 'types/GalleryItemType';
+import { Link } from 'react-router-dom';
 
-export default function GalleryItem({ title, type, url } : GalleryItemWithURLType) {
-  const scrollSpeed = Math.random() * 2.5 + 0.5;
+export default function GalleryItem({ title, type, url, coverUrl, slug } : GalleryItemWithURLType) {
+  const scrollSpeed = Math.random() * 2.5 + 0.5
 
   return (
     <div className={styles.container} data-scroll data-scroll-speed={scrollSpeed}>
       <span className="text animate-in">{title}</span>
-      <a className={`${styles.content} animate-in`}>
+      <Link to={slug} className={`${styles.content} animate-in`}>
         { type == 'image' ? (
           <img alt={title} src={url} className="gallery-item"></img>
         ) : type == 'video' ? (
           <video src={url} className="gallery-item"></video>
         ) : type == 'audio' ? (
-          <div 
-            className={`${styles.audio} hover-target gallery-item`} 
-            style={{backgroundColor: `var(--audio-${Math.ceil(Math.random() * 3)})`}}>
-            <BiSolidMusic className="hover-target" />
-          </div>
+          <img alt={title} src={coverUrl} className="gallery-item"></img>
         ) : (
           <div><span>Unknown file type: {type}</span></div>
         )}
-      </a>
+      </Link>
     </div>
   )
 }

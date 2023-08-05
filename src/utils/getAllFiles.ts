@@ -26,7 +26,15 @@ export default async function getAllFiles() : Promise<GalleryItemWithURLType[] |
     try {
       // Get the download URL
       const url = await getDownloadURL(starsRef);
-      data.url = url
+      (data as GalleryItemWithURLType).url = url
+
+      const coverSrc = (data as GalleryItemWithURLType).coverSrc
+      if(coverSrc) {
+        const coverUrl = await getDownloadURL(ref(storage, coverSrc))
+        data.coverUrl = coverUrl
+      }
+
+      (data as GalleryItemWithURLType).slug = doc.id
 
       fileList.push(data as GalleryItemWithURLType)
     } catch (error : any) {

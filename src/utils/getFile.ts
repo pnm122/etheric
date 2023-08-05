@@ -45,8 +45,6 @@ export default async function getFile(slug: string) : Promise<Return> {
         data.coverUrl = coverUrl
       }
 
-      console.log(data)
-
       return {
         hasError: false,
         error: undefined,

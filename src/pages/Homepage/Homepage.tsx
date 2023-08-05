@@ -63,7 +63,7 @@ export default function Homepage() {
     animateIn()
   }, [galleryItems])
 
-  const galleryItemsRender = galleryItems.map((item, index) => {
+  const galleryItemsRender = galleryItems.map((item) => {
     return (
       <GalleryItem
         key={item.title + item.src}
@@ -74,6 +74,7 @@ export default function Homepage() {
         slug={item.slug}
         timestamp={item.timestamp}
         url={item.url}
+        coverUrl={item.coverUrl}
       />
     )
   })

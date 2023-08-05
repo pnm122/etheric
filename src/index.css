@@ -32,9 +32,6 @@ body {
   --red: #D21825;
   --blue: #004ED3;
   --green: #50C300;
-  --audio-1: rgb(5, 62, 31);
-  --audio-2: rgb(39, 18, 96);
-  --audio-3: rgb(127, 26, 53);
 
   --text-xs: 0.6rem;
   --text-sm: 0.75rem;
@@ -227,6 +224,16 @@ header > div {
   column-gap: var(--gutter-size);
 }
 
+header.single-item > div {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header.single-item svg {
+  font-size: var(--text-4xl);
+}
+
 footer {
   padding-top: var(--size-xl);
   padding-bottom: var(--size-xl);
@@ -251,11 +258,7 @@ footer > div > * {
 }
 
 @media (width > 768px) {
-  header > div {
-    padding: 0 var(--half-gutter-size);
-  }
-
-  footer > div {
+  header:not(.single-item) > div, footer:not(.single-item) > div {
     padding: 0 var(--half-gutter-size);
   }
 }

@@ -149,6 +149,9 @@ function App() {
         <span>View</span>
         <FiArrowRight />
       </div>
+      <div className="red bg"></div>
+      <div className="green bg"></div>
+      <div className="blue bg"></div>
       <LocomotiveScrollProvider>
         <Routes>
           <Route path="/gallery">

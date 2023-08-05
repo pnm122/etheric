@@ -33,8 +33,6 @@ export default function Header({isSingleItem = false}) {
     gsap.fromTo(splitText.chars, textFrom, textTo)
   }, [siteTitle])
 
-  console.log('test', isSingleItem)
-
   return (
     <header className={`container diff ${isSingleItem ? 'single-item' : undefined}`} data-scroll-section>
       <div>

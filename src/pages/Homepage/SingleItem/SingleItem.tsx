@@ -73,57 +73,63 @@ export default function SingleItem() {
       })
   }, [location.pathname])
 
-  useEffect(() => {
-    if(!slugs || !data || !containerRef) return
+  // useEffect(() => {
+  //   if(!slugs || !data || !containerRef) return
 
-    const makeTextResponsive = () => {
-      console.log('yum')
-      // Reposition text after the container is resized (simplified version)
-      // This example uses lodash#debounce to ensure the split method only
-      // gets called once after the resize is complete.
-      const resizeObserver = new ResizeObserver(
-        debounce(([entry]) => {
-          // Note: you should add additional logic so the `split` method is only
-          // called when the **width** of the container element has changed.
-          splitText.split({})
-        }, 500)
-      )
+  //   const makeTextResponsive = () => {
+  //     // Reposition text after the container is resized (simplified version)
+  //     // This example uses lodash#debounce to ensure the split method only
+  //     // gets called once after the resize is complete.
+  //     const resizeObserver = new ResizeObserver(
+  //       debounce(([entry]) => {
+  //         // Note: you should add additional logic so the `split` method is only
+  //         // called when the **width** of the container element has changed.
+  //         splitText.split({})
+  //       }, 500)
+  //     )
 
-      resizeObserver.observe(containerRef.current!)
-    }
+  //     resizeObserver.observe(containerRef.current!)
+  //   }
 
-    const tl = gsap.timeline({ onComplete: makeTextResponsive })
-    const splitText = new SplitType('.text.animate-in')
-    const splitLinks = new SplitType('.link.animate-in', {
-      lineClass: 'line hover-target',
-      wordClass: 'word hover-target',
-      charClass: 'char hover-target'
-    })
-    const content = document.getElementById('content')
-    const footer = document.getElementsByTagName('footer')[0]
+  //   const tl = gsap.timeline({ onComplete: makeTextResponsive })
+  //   const splitText = new SplitType('.text.animate-in')
+  //   const splitLinks = new SplitType('.link.animate-in', {
+  //     lineClass: 'line hover-target',
+  //     wordClass: 'word hover-target',
+  //     charClass: 'char hover-target'
+  //   })
+  //   const content = document.getElementById('content')
+  //   const footer = document.getElementsByTagName('footer')[0]
 
-    const imageElements = document.querySelectorAll('img')
-    imageElements[0].onload = () => {
-      tl.resume()
-    }
-
-    tl.fromTo(content!.firstChild, {
-      y: '-101%',
-    }, {
-      y: 0,
-      duration: 1.5,
-      ease: 'expo.inOut',
-    })
-
-    tl.fromTo(splitText.chars, textFrom, textTo)
-
-    tl.fromTo(splitLinks.chars, textFrom, textTo)
-
-    tl.fromTo(footer, { opacity: 0}, { opacity: 1, duration: 0.5 })
-
-    tl.pause()
+  //   let file
+  //   if(data.type == 'image' || data.type == 'audio') {
+  //     file = document.getElementsByTagName('img')[0]
+  //     file.onload = () => {
+  //       tl.resume()
+  //     }
+  //   } else {
+  //     file = document.getElementsByTagName('video')[0]
+  //     file.onloadeddata = () => {
+  //       tl.resume()
+  //     }
+  //   }
     
-  }, [slugs, data, containerRef])
+  //   tl.fromTo(content!.firstChild, {
+  //     y: '-101%',
+  //   }, {
+  //     y: 0,
+  //     duration: 1.5,
+  //     ease: 'expo.inOut',
+  //   })
+
+  //   // tl.fromTo(document.querySelector('.text.animate-in'), textFrom, textTo)
+
+
+  //   tl.fromTo(footer, { opacity: 0}, { opacity: 1, duration: 0.5 })
+
+  //   tl.pause()
+    
+  // }, [slugs, data, containerRef])
 
   let nextSlug, prevSlug
 
@@ -138,20 +144,18 @@ export default function SingleItem() {
       <Header isSingleItem />
       <main data-scroll-section>
         <div className="container">
-          { data && slugs && (
-            <div id={styles.data} ref={containerRef}>
-              <div id="content">
-                <FileDisplay singleItem url={data.url} coverUrl={data.coverUrl} type={data.type} title={data.title} />
-              </div>
-              <h1 id={styles.title} className="text animate-in" data-scroll>{data.title}</h1>
-              <h2 id={styles.description} className="text animate-in" data-scroll>{data.description}</h2>
-              <div id={styles.nav}>
-                <Link className="link animate-in" to={`/gallery/${prevSlug}`}>Prev</Link>
-                <Link className="link animate-in" to='/gallery'>Gallery</Link>
-                <Link className="link animate-in" to={`/gallery/${nextSlug}`}>Next</Link>
-              </div>
+          <div id={styles.data} ref={containerRef}>
+            <div id="content">
+              { data && <FileDisplay singleItem url={data.url} coverUrl={data.coverUrl} type={data.type} title={data.title} /> }
             </div>
-          )}
+            <h1 id={styles.title} className="text animate-in" data-scroll>{data && data.title}</h1>
+            <h2 id={styles.description} className="text animate-in" data-scroll>{data && data.description}</h2>
+            <div id={styles.nav}>
+              <Link className="link animate-in" to={`/gallery/${prevSlug}`}>Prev</Link>
+              <Link className="link animate-in" to='/gallery'>Gallery</Link>
+              <Link className="link animate-in" to={`/gallery/${nextSlug}`}>Next</Link>
+            </div>
+          </div>
         </div>
       </main>
       <Footer isSingleItem />

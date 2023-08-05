@@ -274,6 +274,36 @@ input[aria-errormessage] {
   border-color: var(--error-color);
 }
 
+.bg {
+  position: fixed;
+  z-index: -1;
+  width: 70vw;
+  height: 70vw;
+  opacity: 0.15;
+  background: radial-gradient(var(--grad-color), transparent 75%);
+  top: var(--top);
+  left: var(--left);
+  filter: blur(20vw);
+}
+
+.red {
+  --grad-color: var(--red);
+  --top: 35vh;
+  --left: -8vw;
+}
+
+.green {
+  --grad-color: var(--green);
+  --top: -5vh;
+  --left: 30vw;
+}
+
+.blue {
+  --grad-color: var(--blue);
+  --top: 50vh;
+  --left: 45vw;
+}
+
 .header-text[aria-hidden=true] {
   visibility: hidden;
 }

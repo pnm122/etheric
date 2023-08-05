@@ -7,15 +7,21 @@ interface Props {
   coverUrl?: string
   type: FileType
   title: string
+  singleItem: boolean
 }
 
-export default function FileDisplay({ url, coverUrl, type, title} : Props) {
+export default function FileDisplay({ singleItem = false, url, coverUrl, type, title} : Props) {
   return type == 'image' ? (
-    <img id={styles.content} src={url} alt={title}></img>
+    <img id={styles.content} className={singleItem ? styles.singleItem : undefined} src={url} alt={title}></img>
   ) : type == 'video' ? (
-    <video controls={true} id={styles.content} src={url}></video>
+    <video controls={true} id={styles.content} className={singleItem ? styles.singleItem : undefined} src={url}></video>
   ) : type =='audio' ? (
-    <AudioPlayer url={url} coverUrl={coverUrl} title={title} type={type} />
+    <AudioPlayer 
+      singleItem={singleItem} 
+      url={url} 
+      coverUrl={coverUrl} 
+      title={title} 
+      type={type} />
   ) : <span className="error">Unknown Data Type: {type}</span>
 }
 
@@ -24,7 +30,7 @@ interface Time {
   seconds: number
 }
 
-const AudioPlayer = ({ url, coverUrl, title} : Props) => {
+const AudioPlayer = ({ singleItem, url, coverUrl, title} : Props) => {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [duration, setDuration] = useState<Time | null>(null)
   const [position, setPosition] = useState<Time | null>(null)
@@ -82,7 +88,7 @@ const AudioPlayer = ({ url, coverUrl, title} : Props) => {
   }
 
   return (
-    <div id={styles.content}>
+    <div id={styles.content} className={singleItem ? styles.singleItem : undefined}>
       <img id={styles.audioCover} src={coverUrl}></img>
       { position && duration && (
         <div id={styles.audioPlayer}>
@@ -106,7 +112,7 @@ const AudioPlayer = ({ url, coverUrl, title} : Props) => {
                 '--position': `${secs(position.minutes, position.seconds) / secs(duration.minutes, duration.seconds) * 100}%`
               } as CSSProperties}
             />
-            <p>{position.minutes}:{formatSeconds(position.seconds)}/{duration.minutes}:{formatSeconds(duration.seconds)}</p>
+            <p id={styles.position}>{position.minutes}:{formatSeconds(position.seconds)}/{duration.minutes}:{formatSeconds(duration.seconds)}</p>
           </div>
         </div>
       )}

@@ -1,9 +1,11 @@
 export const textFrom = {
-  y: '-100%',
+  opacity: 0,
+  y: '-110%',
   rotate: -15,
 }
 
 export const textTo = {
+  opacity: 1,
   y: 0,
   rotate: 0,
   duration: 0.8,

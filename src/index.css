@@ -412,3 +412,8 @@ input[aria-errormessage] {
 .filled-button[aria-disabled=true] {
   background-color: var(--on-bg25);
 }
+
+#content {
+  overflow: hidden;
+  height: fit-content;
+}

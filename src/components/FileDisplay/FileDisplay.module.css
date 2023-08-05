@@ -99,3 +99,12 @@
     font-size: var(--text-4xl);
   }
 }
+
+.singleItem {
+  width: 100%;
+}
+
+#position {
+  color: var(--on-bg);
+  text-shadow: 0 0 2px black;
+}

@@ -80,11 +80,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--size-xl);
+  max-width: 500px;
 }
 
 #add input, #add textarea {
   width: 100%;
-  max-width: 500px;
 }
 
 .fileUpload {
@@ -146,4 +146,92 @@
 
 #outlet {
   padding-bottom: var(--size-xl);
+}
+
+#upload {
+  max-width: 500px;
+}
+
+/* Type Selector */
+#type-selector {
+  position: relative;
+}
+
+#type-selector label {
+  display: block;
+  margin-bottom: var(--size-sm);
+}
+
+#selector-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--bg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--on-bg25);
+  margin-top: var(--size-sm);
+}
+
+#selector-dropdown ul {
+  margin: 0;
+  padding: 0;
+}
+
+#selector-dropdown li {
+  display: block;
+}
+
+#selector-dropdown li button {
+  padding: var(--size-md) var(--size-xl);
+  width: 100%;
+}
+
+#selector-dropdown li[aria-selected=true] button {
+  background-color: var(--on-bg);
+  color: var(--bg);
+}
+
+#selector-dropdown li[aria-selected=false] button:hover {
+  background-color: var(--on-bg);
+  color: var(--bg);
+}
+
+#selector-dropdown[aria-expanded=false] {
+  display: none;
+}
+
+/* File list */
+#file-list {
+  margin: 0;
+  padding: 0;
+}
+
+#file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--size-md);
+  width: 100%;
+  padding-bottom: var(--size-lg);
+}
+
+#file-list li:only-child span:not(.audio-file) {
+  font-size: var(--text-md);
+}
+
+#file-list li:not(:last-of-type) {
+  border-bottom: 1px solid var(--on-bg25);
+}
+
+#file-list li:not(:first-of-type) {
+  padding-top: var(--size-lg);
+}
+
+#file-list li span {
+  display: flex;
+  gap: var(--size-md);
+}
+
+#file-list li .audio-file::before {
+  content: attr(data-index);
 }

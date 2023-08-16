@@ -10,7 +10,7 @@ export interface GalleryItemFromDBType {
     seconds: number,
     milliseconds: number
   }
-  src: string
+  src: string | string[]
   coverSrc?: string
 }
 

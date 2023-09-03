@@ -36,11 +36,7 @@ export default function Header({isSingleItem = false}) {
     <header className={`container diff ${isSingleItem ? 'single-item' : undefined}`} data-scroll-section>
       <div>
         <h1 aria-hidden={siteTitle == ''} className="header-text animate-in">{siteTitle}</h1>
-        { isSingleItem ? (
-          <Link to='/gallery'><HiX className="hover-target" /></Link>
-        ) : (
-          <h1 aria-hidden={siteTitle == ''} className="secondary header-text animate-in">Energy In Present Time</h1>
-        )}
+        { isSingleItem && <Link to='/gallery'><HiX className="hover-target" /></Link> }
       </div>
     </header>
   )

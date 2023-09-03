@@ -1,9 +1,10 @@
 import { BsFillPlayFill, BsPauseFill } from 'react-icons/bs'
 import styles from './FileDisplay.module.css'
 import { useRef, useEffect, useState, CSSProperties } from 'react'
+import { BiSkipNext, BiSkipPrevious } from 'react-icons/bi'
 
 interface Props {
-  url: string
+  url: string[]
   coverUrl?: string
   type: FileType
   title: string
@@ -12,9 +13,9 @@ interface Props {
 
 export default function FileDisplay({ singleItem = false, url, coverUrl, type, title} : Props) {
   return type == 'image' ? (
-    <img id={styles.content} className={singleItem ? styles.singleItem : undefined} src={url} alt={title}></img>
+    <img id={styles.content} className={singleItem ? styles.singleItem : undefined} src={url[0]} alt={title}></img>
   ) : type == 'video' ? (
-    <video controls={true} id={styles.content} className={singleItem ? styles.singleItem : undefined} src={url}></video>
+    <video controls={true} id={styles.content} className={singleItem ? styles.singleItem : undefined} src={url[0]}></video>
   ) : type =='audio' ? (
     <AudioPlayer 
       singleItem={singleItem} 
@@ -32,11 +33,23 @@ interface Time {
 
 const AudioPlayer = ({ singleItem, url, coverUrl } : Props) => {
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [track, setTrack] = useState(0)
   const [duration, setDuration] = useState<Time | null>(null)
   const [position, setPosition] = useState<Time | null>(null)
   const [playing, setPlaying] = useState(false)
 
   useEffect(() => {
+    audioRef.current?.load()
+    setPlaying(false)
+    setDuration({
+      minutes: 0,
+      seconds: 0
+    })
+
+    setPosition({
+      minutes: 0,
+      seconds: 0
+    })
     // When the audio data loads, set the duration and position state
     audioRef.current?.addEventListener('loadedmetadata', () => {
       const d = audioRef.current!.duration
@@ -66,7 +79,7 @@ const AudioPlayer = ({ singleItem, url, coverUrl } : Props) => {
     audioRef.current?.addEventListener('ended', () => {
       setPlaying(false)
     })
-  }, [audioRef])
+  }, [audioRef, track])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(!audioRef.current) return
@@ -92,13 +105,32 @@ const AudioPlayer = ({ singleItem, url, coverUrl } : Props) => {
       <img id={styles.audioCover} src={coverUrl}></img>
       { position && duration && (
         <div id={styles.audioPlayer}>
-          <button id={styles.playPause} onClick={togglePlaying}>
-            { playing ? (
-              <BsPauseFill className="hover-target" />
-            ) : (
-              <BsFillPlayFill className="hover-target" />
-            )}
-          </button>
+          <div id={styles.trackSelector}>
+            <div id={styles.audioButtons}>
+              <button 
+                className={styles.trackButton} 
+                disabled={track == 0} 
+                aria-disabled={track == 0}
+                onClick={() => setTrack(track - 1)}>
+                <BiSkipPrevious className={track != 0 ? 'hover-target' : undefined} />
+              </button>
+              <button id={styles.playPause} onClick={togglePlaying}>
+                { playing ? (
+                  <BsPauseFill className="hover-target" />
+                ) : (
+                  <BsFillPlayFill className="hover-target" />
+                )}
+              </button>
+              <button 
+                className={styles.trackButton} 
+                disabled={track == url.length - 1} 
+                aria-disabled={track == url.length - 1}
+                onClick={() => setTrack(track + 1)}>
+                <BiSkipNext className={track != url.length - 1 ? 'hover-target' : undefined} />
+              </button>
+            </div>
+            <span id={styles.trackInfo}>{track + 1} / {url.length}</span>
+          </div>
           <div id={styles.playback}>
             <input 
               type="range" 
@@ -120,7 +152,7 @@ const AudioPlayer = ({ singleItem, url, coverUrl } : Props) => {
         <span>Loading...</span>
       )}
       <audio ref={audioRef}>
-        <source src={url}></source>
+        <source src={url[track]}></source>
       </audio>
     </div>
   )

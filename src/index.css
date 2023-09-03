@@ -192,7 +192,8 @@ a {
 }
 
 hr {
-  border: 1px solid var(--on-bg50);
+  border: 1px solid var(--on-bg25);
+  width: 100%;
 }
 
 main {

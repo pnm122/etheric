@@ -8,34 +8,62 @@ import uploadItem from 'utils/uploadItem'
 import getFileType from 'utils/getFileType'
 import { useContext } from 'react'
 import { NotificationContext } from 'context/NotificationContext'
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
+import { HiX } from 'react-icons/hi'
 
 export default function Upload() {
-  const [file, setFile] = useState<File | null>(null)
+  const [files, setFiles] = useState<File[]>([])
   const [audioCoverFile, setAudioCoverFile] = useState<File | null>(null)
   const [fileError, setFileError] = useState<string | null>(null)
   const [audioCoverFileError, setAudioCoverFileError] = useState<string | null>(null)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [type, setType] = useState<FileType>('image')
 
   const navigate = useNavigate()
   const { setNotification } = useContext(NotificationContext)
 
-  const handleChangeFile = (e : React.ChangeEvent<HTMLInputElement>) => {
-    if(e.target.files) {
-      const f = e.target.files[0]
-      const t = getFileType(f)
+  const updateType = (t : FileType) => {
+    setFiles([])
+    setType(t)
+  }
 
-      if(t == 'unknown') {
-        setFileError('File must be an image, video, or audio.')
-        setFile(null)
-        return
-      }
+  const addFile = (e : React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
 
-      setFileError(null)
-      setFile(f)
-      // Remove file extension for default title
-      setTitle(f.name.split('.')[0])
+    if(!e.target.files) return
+
+    const f = e.target.files[0]
+    const t = getFileType(f)
+
+    if(type != t) {
+      setFileError(`File must be of type ${type}`)
+      return
     }
+
+    if(type == 'audio') {
+      setFiles(oldFiles => [...oldFiles, f])
+      setFileError(null)
+      return
+    }
+
+    setFiles([f])
+    setFileError(null)
+  }
+
+  const removeFile = (e : React.MouseEvent<HTMLButtonElement>, i : number) => {
+    e.preventDefault()
+
+    if(i < 0 || i > files.length - 1) {
+      console.error('URGENT: Remove index out of bounds?')
+      return
+    }
+    
+    const n = files[i].name
+
+    setFiles(oldFiles => {
+      return oldFiles.filter(f => f.name != n)
+    })
   }
 
   const handleChangeCoverFile = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -57,25 +85,35 @@ export default function Upload() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    if(!file) {
+    if(files.length == 0) {
       setFileError('Please upload a file.')
       return
     }
 
-    if(file && file.type.includes('audio') && !audioCoverFile) {
+    if(files.length > 0 && type == 'audio' && !audioCoverFile) {
       setAudioCoverFileError('Please upload a cover image with an audio file.')
       return
     }
 
     uploadItem({
-      file,
+      files,
       audioCoverFile,
+      type,
       title,
       description
     }).then(results => {
-      if(results[0] && results[1] && (results[2] != null ? results[2] : true)) {
+      // Make sure all results are true (everything uploaded correctly)
+      let ok = true
+      for(let res of results) {
+        if(!res) {
+          ok = false
+          return
+        }
+      }
+
+      if(ok) {
         navigate('/admin')
-        setNotification(`${file.name} uploaded successfully.`, false)
+        setNotification(`${title} uploaded successfully.`, false)
       } else {
         setNotification('An error occurred uploading the file.', true)
       }
@@ -92,26 +130,50 @@ export default function Upload() {
         <form id={styles.add} onSubmit={handleSubmit}>
           <h2>Upload an Item</h2>
           <div>
-            <div className={styles.uploadContainer}>
-              <label 
-                htmlFor="file-upload"
-                className={`filled-button hover-target ${styles.fileUploadButton}`}
-                aria-errormessage={fileError ?? undefined}>
-                Choose a File <IoMdAdd className="hover-target" />
-              </label>
-              <span className={styles.fileName}>{file && file.name}</span>
-            </div>
-            <input 
-              id="file-upload"
-              className={styles.fileUpload}
-              type="file"
-              onChange={handleChangeFile}
-              aria-errormessage={fileError ?? undefined}
-            />
-            { fileError && <span className="error">{fileError}</span> }
+            <TypeSelector onChange={t => updateType(t)} />
+          </div>
+          <hr></hr>
+          { files.length > 0 && (
+            <ul id={styles['file-list']}>
+              { files.map((f, i) => {
+                return (
+                  <li key={f.toString()}>
+                    <span 
+                      data-index={i + 1} 
+                      className={type == 'audio' ? styles['audio-file'] : undefined}>
+                      {f.name}
+                    </span>
+                    <button type='button' onClick={(e) => removeFile(e, i)}>
+                      <HiX className='hover-target' />
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+          <div>
+            { (type == 'audio' || files.length == 0) && <>
+              <div className={styles.uploadContainer}>
+                <label 
+                  htmlFor="file-upload"
+                  className={`filled-button hover-target ${styles.fileUploadButton}`}
+                  aria-errormessage={fileError ?? undefined}>
+                  Choose a File <IoMdAdd className="hover-target" />
+                </label>
+                {/* <span className={styles.fileName}>{file && file.name}</span> */}
+              </div>
+              <input 
+                id="file-upload"
+                className={styles.fileUpload}
+                type="file"
+                onChange={addFile}
+                aria-errormessage={fileError ?? undefined}
+              />
+              { fileError && <span className="error">{fileError}</span> }
+            </>}
           </div>
           {/* If the user uploads an audio file, they need to upload a cover image as well. */}
-          { file && file.type.includes('audio') ? (
+          { type == 'audio' ? (
             <div>
               <div className={styles.uploadContainer}>
                 <label 
@@ -157,5 +219,60 @@ export default function Upload() {
         </form>
       </div>
     </main>
+  )
+}
+
+interface TypeSelectorProps {
+  onChange: (type: FileType) => void
+}
+
+const TypeSelector = ({ onChange } : TypeSelectorProps) => {
+  const [type, setType] = useState<FileType>('image')
+  const [expanded, setExpanded] = useState(false)
+
+  const updateType = (t: FileType) => {
+    if(t == type) return
+
+    setExpanded(false)
+    setType(t)
+    onChange(t)
+  }
+
+  return (
+    <div id={styles['type-selector']}>
+      <label>File Type</label>
+      <button 
+        type='button'
+        onClick={() => setExpanded(!expanded)}
+        className='filled-button'>
+        {type}
+        { expanded ? <FaAngleDown className='hover-target' /> : <FaAngleUp className='hover-target' /> }
+      </button>
+      <div id={styles['selector-dropdown']} aria-expanded={expanded}>
+        <ul>
+          <li aria-selected={type == 'image'}>
+            <button 
+              type='button' 
+              onClick={() => updateType('image')}>
+              image
+            </button>
+          </li>
+          <li aria-selected={type == 'video'}>
+            <button 
+              type='button' 
+              onClick={() => updateType('video')}>
+              video
+            </button>
+          </li>
+          <li aria-selected={type == 'audio'}>
+            <button 
+              type='button' 
+              onClick={() => updateType('audio')}>
+              audio
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
   )
 }

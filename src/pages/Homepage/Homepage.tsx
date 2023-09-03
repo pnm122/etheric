@@ -45,6 +45,7 @@ export default function Homepage() {
 
   useEffect(() => {
     getAllFiles().then(res => {
+      console.log(res)
       if(!res) {
         setNotification('Failed to load gallery', true)
         return

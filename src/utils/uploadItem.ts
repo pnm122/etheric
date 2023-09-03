@@ -1,23 +1,25 @@
 import { Timestamp, doc, getFirestore, setDoc } from "firebase/firestore"
 import { getStorage, ref, uploadBytes } from 'firebase/storage'
-import getFileType from "./getFileType"
 import { GalleryItemFromDBType } from "types/GalleryItemType"
 
 interface Props {
-  file: File
+  files: File[]
   audioCoverFile: File | null
+  type: FileType
   title: string
   description: string
 }
 
-export default async function uploadItem({ file, audioCoverFile, title, description } : Props) {
+export default async function uploadItem({ files, audioCoverFile, type, title, description } : Props) {
   const db = getFirestore()
+
+  const srcList = files.map(f => {return f.name})
 
   let data : GalleryItemFromDBType = {
     title: title,
     description: description,
-    src: file.name,
-    type: getFileType(file) as FileType,
+    src: srcList,
+    type: type,
     // For some reason the Firebase type says seconds and nanoseconds, but
     // the actual data in Firebase is seconds + ms. idk man this fixes it for now
     timestamp: Timestamp.now() as unknown as { seconds: number, milliseconds: number }
@@ -34,17 +36,22 @@ export default async function uploadItem({ file, audioCoverFile, title, descript
   })
 
   const storage = getStorage()
+  let filePromises : Promise<boolean>[] = []
 
-  const fileRef = ref(storage, file.name)
+  for(let file of files) {
+    const fileRef = ref(storage, file.name)
 
-  const filePromise = uploadBytes(fileRef, file).then(() => {
-    return true
-  }).catch(e => {
-    console.error(e)
-    return false
-  })
+    const filePromise = uploadBytes(fileRef, file).then(() => {
+      return true
+    }).catch(e => {
+      console.error(e)
+      return false
+    })
+    
+    filePromises.push(filePromise)
+  }
 
-  if(!audioCoverFile) return Promise.all([firebasePromise, filePromise])
+  if(!audioCoverFile) return Promise.all([firebasePromise, ...filePromises])
 
   const coverRef = ref(storage, audioCoverFile.name)
 
@@ -55,7 +62,7 @@ export default async function uploadItem({ file, audioCoverFile, title, descript
     return false
   })
 
-  return Promise.all([firebasePromise, filePromise, coverPromise])
+  return Promise.all([firebasePromise, ...filePromises, coverPromise])
 }
 
 // turn the title into a slug to use as the URL later

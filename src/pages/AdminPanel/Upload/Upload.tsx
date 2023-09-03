@@ -29,6 +29,8 @@ export default function Upload() {
   }
 
   const addFile = (e : React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+
     if(!e.target.files) return
 
     const f = e.target.files[0]
@@ -49,7 +51,9 @@ export default function Upload() {
     setFileError(null)
   }
 
-  const removeFile = (i : number) => {
+  const removeFile = (e : React.MouseEvent<HTMLButtonElement>, i : number) => {
+    e.preventDefault()
+
     if(i < 0 || i > files.length - 1) {
       console.error('URGENT: Remove index out of bounds?')
       return
@@ -79,31 +83,41 @@ export default function Upload() {
   }
 
   const handleSubmit = (e: React.FormEvent) => {
-    // e.preventDefault()
+    e.preventDefault()
 
-    // if(!file) {
-    //   setFileError('Please upload a file.')
-    //   return
-    // }
+    if(files.length == 0) {
+      setFileError('Please upload a file.')
+      return
+    }
 
-    // if(file && file.type.includes('audio') && !audioCoverFile) {
-    //   setAudioCoverFileError('Please upload a cover image with an audio file.')
-    //   return
-    // }
+    if(files.length > 0 && type == 'audio' && !audioCoverFile) {
+      setAudioCoverFileError('Please upload a cover image with an audio file.')
+      return
+    }
 
-    // uploadItem({
-    //   file,
-    //   audioCoverFile,
-    //   title,
-    //   description
-    // }).then(results => {
-    //   if(results[0] && results[1] && (results[2] != null ? results[2] : true)) {
-    //     navigate('/admin')
-    //     setNotification(`${file.name} uploaded successfully.`, false)
-    //   } else {
-    //     setNotification('An error occurred uploading the file.', true)
-    //   }
-    // })
+    uploadItem({
+      files,
+      audioCoverFile,
+      type,
+      title,
+      description
+    }).then(results => {
+      // Make sure all results are true (everything uploaded correctly)
+      let ok = true
+      for(let res of results) {
+        if(!res) {
+          ok = false
+          return
+        }
+      }
+
+      if(ok) {
+        navigate('/admin')
+        setNotification(`${title} uploaded successfully.`, false)
+      } else {
+        setNotification('An error occurred uploading the file.', true)
+      }
+    })
   }
 
   return (
@@ -129,7 +143,7 @@ export default function Upload() {
                       className={type == 'audio' ? styles['audio-file'] : undefined}>
                       {f.name}
                     </span>
-                    <button type='button' onClick={() => removeFile(i)}>
+                    <button type='button' onClick={(e) => removeFile(e, i)}>
                       <HiX className='hover-target' />
                     </button>
                   </li>

@@ -36,7 +36,7 @@ export default function SingleItem() {
           if(typeof res.error == 'string') {
             setNotification(res.error, true)
           } else {
-            console.error(res.error)
+            console.error(res)
           }
           
           navigate('/admin')

@@ -10,9 +10,9 @@ export default function GalleryItem({ title, type, url, coverUrl, slug } : Galle
       <span className="text animate-in">{title}</span>
       <Link to={slug} className={`${styles.content} animate-in`}>
         { type == 'image' ? (
-          <img alt={title} src={url} className="gallery-item"></img>
+          <img alt={title} src={url[0]} className="gallery-item"></img>
         ) : type == 'video' ? (
-          <video src={url} className="gallery-item"></video>
+          <video src={url[0]} className="gallery-item"></video>
         ) : type == 'audio' ? (
           <img alt={title} src={coverUrl} className="gallery-item"></img>
         ) : (

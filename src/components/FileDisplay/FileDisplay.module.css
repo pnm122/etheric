@@ -75,19 +75,57 @@
   width: var(--position);
 }
 
-#playPause {
-  width: 48px;
-  height: 48px;
+#trackSelector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-md);
+}
+
+#trackInfo {
+  color: var(--bg);
+  background-color: var(--on-bg);
+  padding: var(--size-sm) var(--size-lg);
+  box-shadow: var(--shadow-xl);
+}
+
+#audioButtons {
+  display: flex;
+  gap: var(--size-md);
+  align-items: center;
+}
+
+#playPause, .trackButton {
   background-color: var(--on-bg);
   color: var(--bg);
   border-radius: 999px;
   box-shadow: var(--shadow-xl);
 }
 
+#playPause {
+  width: 48px;
+  height: 48px;
+}
+
+.trackButton {
+  width: 32px;
+  height: 32px;
+}
+
+.trackButton:disabled {
+  background-color: var(--on-bg50);
+}
+
 @media (width > 768px) {
   #playPause {
     width: 64px;
     height: 64px;
+    font-size: var(--text-xl);
+  }
+
+  .trackButton {
+    width: 48px;
+    height: 48px;
     font-size: var(--text-xl);
   }
 }
@@ -97,6 +135,12 @@
     width: 120px;
     height: 120px;
     font-size: var(--text-4xl);
+  }
+
+  .trackButton {
+    width: 64px;
+    height: 64px;
+    font-size: var(--text-xl);
   }
 }
 

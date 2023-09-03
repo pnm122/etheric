@@ -1,7 +1,7 @@
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 
-export default async function deleteItem(id: string, src: string, coverSrc: string | undefined) {
+export default async function deleteItem(id: string, src: string[], coverSrc: string | undefined) {
   const db = getFirestore()
   const storage = getStorage()
 
@@ -12,14 +12,20 @@ export default async function deleteItem(id: string, src: string, coverSrc: stri
     return false
   })
 
-  const fileDelete = deleteObject(ref(storage, src)).then(() => {
-    return true
-  }).catch(e => {
-    console.error(e)
-    return false
-  })
+  let fileDeletePromises : Promise<boolean>[] = []
 
-  if(!coverSrc) return Promise.all([firebaseDelete, fileDelete])
+  for(const s of src) {
+    const fileDeletePromise = deleteObject(ref(storage, s)).then(() => {
+      return true
+    }).catch(e => {
+      console.error(e)
+      return false
+    })
+
+    fileDeletePromises.push(fileDeletePromise)
+  }
+
+  if(!coverSrc) return Promise.all([firebaseDelete, fileDeletePromises])
 
   const coverDelete = deleteObject(ref(storage, coverSrc)).then(() => {
     return true
@@ -28,5 +34,5 @@ export default async function deleteItem(id: string, src: string, coverSrc: stri
     return false
   })
 
-  return Promise.all([firebaseDelete, fileDelete, coverDelete])
+  return Promise.all([firebaseDelete, fileDeletePromises, coverDelete])
 }
